@@ -107,7 +107,7 @@
             <field name="arch" type="xml">
                 <form string="Property Information">
                     <header>
-                        <field name="property_status" widget="statusbar" options="{'clickable': '1'}"/>
+                        <field name="property_status" widget="statusbar"/>
                     </header>
                     <sheet>
                         <group>
