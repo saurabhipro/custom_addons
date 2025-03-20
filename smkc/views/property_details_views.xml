@@ -1,0 +1,53 @@
+<odoo>
+    <data>
+        <record id="view_property_info_list" model="ir.ui.view">
+            <field name="name">smkc.property.info.list</field>
+            <field name="model">smkc.property.info</field>
+            <field name="arch" type="xml">
+                <list string="Property Information">
+                    <field name="owner_id"/>
+                    <field name="upic_no"/>
+                    <field name="zone"/>
+                    <field name="new_zone_no"/>
+                    <field name="old_zone_no"/>
+                    <field name="bill_no"/>
+                    <field name="plot_area"/>
+                    <field name="mobile_no"/>
+                    <field name="old_rental_value"/>
+                    <field name="old_property_tax"/>
+                    <field name="new_toilet_no"/>
+                    <field name="plot_taxable_area_sqft"/>
+                    <field name="marathi_owner_name"/>
+                    <field name="latitude"/>
+                    <field name="longitude"/>
+                    <field name="road_width"/>
+                    <field name="is_solar"/>
+                    <field name="no_of_solar"/>
+                    <field name="is_bore"/>
+                    <field name="is_water_conn_status"/>
+                    <field name="is_hand_pump"/>
+                    <field name="is_lift"/>
+                    <field name="garbage_segrigation"/>
+                    <field name="licence_no"/>
+                    <field name="year_of_construction"/>
+                    <field name="building_age"/>
+                    <field name="is_fire"/>
+                    <field name="is_etp"/>
+                    <field name="is_home_composting"/>
+                    <field name="is_const_permission"/>
+                    <field name="is_bukhand"/>
+                    <field name="is_animals"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="action_property_info" model="ir.actions.act_window">
+            <field name="name">Property Information</field>
+            <field name="res_model">smkc.property.info</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="view_property_info_list"/>
+        </record>
+
+
+    </data>
+</odoo>

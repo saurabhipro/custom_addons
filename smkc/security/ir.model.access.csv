@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_smkc_property_info,smkc.property.info,model_smkc_property_info,base.group_user,1,1,1,1
+
+access_smkc_zone,smkc.zone,model_smkc_zone,base.group_user,1,1,1,1
+access_smkc_ward,smkc.ward,model_smkc_ward,base.group_user,1,1,1,1
+
+access_smkc_property_type,smkc.property.type,model_smkc_property_type,base.group_user,1,1,1,1
+
