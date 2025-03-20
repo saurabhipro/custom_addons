@@ -9,8 +9,7 @@
     'website': "",
     'category': 'Uncategorized',
     'version': '0.1',
-    'depends': ['base'],
-    # always loaded
+    'depends': ['base','mail'],
     'data': [
         'security/ir.model.access.csv',
         'views/property_details_views.xml',

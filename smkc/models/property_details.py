@@ -3,10 +3,29 @@ from odoo import models, fields
 class PropertyInfo(models.Model):
     _name = 'smkc.property.info'
     _description = 'Property Information'
+    _inherit = ['mail.thread']
+
 
     # Owner Information
+    property_status = fields.Selection([
+        ('uploaded','Uploaded'),
+        ('pdf_downloaded','PDF Downloaded'),
+        ('plate_installed', 'Plate Installed'),
+        ('surveyed', 'Surveyed'),
+        ('unlocked','Unlocked'),
+        ('discovered', 'Discovered')
+         ], string="Property Status", default="uploaded")
+    property_image = fields.Binary() 
+    property_image1 = fields.Binary() 
+
     owner_id = fields.Char('OwnerID')
     upic_no = fields.Char('UPICNO')
+
+    _sql_constraints = [
+        ('unique_upic_no', 'UNIQUE(upic_no)', 'The UPICNO must be unique.')
+    ]
+
+    survey_line_ids = fields.One2many('smkc.property.survey', 'property_id', string="Survey Line")
     
     # Zone and Ward Information
     zone = fields.Char('Zone')
@@ -25,18 +44,18 @@ class PropertyInfo(models.Model):
     property_description = fields.Text('PropertyDescription')
     
     # Plot Information
-    plot_area = fields.Float('PlotArea')  # In Sq. Ft. or desired unit
+    plot_area = fields.Char('PlotArea')  # In Sq. Ft. or desired unit
     mobile_no = fields.Char('MobileNo')
     
     # Old Rent Information
-    old_rental_value = fields.Float('OldRentalValue')
-    old_rv = fields.Float('OldRV')
-    old_property_tax = fields.Float('OldPropertyTax')
-    old_total_tax = fields.Float('OldTotalTax')
+    old_rental_value = fields.Char('OldRentalValue')
+    old_rv = fields.Char('OldRV')
+    old_property_tax = fields.Char('OldPropertyTax')
+    old_total_tax = fields.Char('OldTotalTax')
     
     # New Property Information
-    new_toilet_no = fields.Integer('NewToiletNo')
-    plot_taxable_area_sqft = fields.Float('PlotTaxableAreaSqFt')
+    new_toilet_no = fields.Char('NewToiletNo')
+    plot_taxable_area_sqft = fields.Char('PlotTaxableAreaSqFt')
     
     # Marathi Names
     marathi_owner_name = fields.Char('MarathiOwnerName')
@@ -50,94 +69,100 @@ class PropertyInfo(models.Model):
     comb_prop_remark = fields.Text('CombPropRemark')
     
     # Location Information
-    latitude = fields.Float('Latitude')
-    longitude = fields.Float('Longitude')
+    latitude = fields.Char('Latitude')
+    longitude = fields.Char('Longitude')
     
     # Property Infrastructure Information
-    road_width = fields.Float('RoadWidth')
-    no_of_trees = fields.Integer('NoOfTrees')
+    road_width = fields.Char('RoadWidth')
+    no_of_trees = fields.Char('NoOfTrees')
     
     # Solar, Bore, Water, and Rainwater Information
-    is_solar = fields.Boolean('IsSolar')
-    no_of_solar = fields.Integer('NoOfSolar')
-    is_bore = fields.Boolean('IsBoar')
-    no_of_bore = fields.Integer('NoOfBoar')
-    is_rainwater_harvesting = fields.Boolean('IsRainwaterharvesting')
-    no_of_rain_water_harvesting = fields.Integer('NoOfRainWaterharvesting')
+    is_solar = fields.Char('IsSolar')
+    no_of_solar = fields.Char('NoOfSolar')
+    is_bore = fields.Char('IsBoar')
+    no_of_bore = fields.Char('NoOfBoar')
+    is_rainwater_harvesting = fields.Char('IsRainwaterharvesting')
+    no_of_rain_water_harvesting = fields.Char('NoOfRainWaterharvesting')
     
     # Water Connection and Hand Pump Information
-    is_water_conn_status = fields.Boolean('IsWarterConnStatus')
-    is_hand_pump = fields.Boolean('IsHandPump')
-    no_of_hand_pump = fields.Integer('NoOfHandPump')
-    is_well = fields.Boolean('IsWell')
-    no_of_well = fields.Integer('NoOfWell')
+    is_water_conn_status = fields.Char('IsWarterConnStatus')
+    is_hand_pump = fields.Char('IsHandPump')
+    no_of_hand_pump = fields.Char('NoOfHandPump')
+    is_well = fields.Char('IsWell')
+    no_of_well = fields.Char('NoOfWell')
     
     # Lift, Drain, and Building Information
-    is_lift = fields.Boolean('IsLift')
-    no_of_lift = fields.Integer('NoOfLift')
-    drain = fields.Boolean('Drain')
-    building_permissions = fields.Boolean('BuildingPermissions')
-    building_advertise = fields.Boolean('BuildingAdvertise')
+    is_lift = fields.Char('IsLift')
+    no_of_lift = fields.Char('NoOfLift')
+    drain = fields.Char('Drain')
+    building_permissions = fields.Char('BuildingPermissions')
+    building_advertise = fields.Char('BuildingAdvertise')
     building_advertise_type = fields.Char('BuildingAdvertiseType')
     
     # Garbage Information
-    garbage_segrigation = fields.Boolean('GarbageSegrigation')
-    garbage_disposal = fields.Boolean('GarbageDisposal')
-    septic_tank_yes_no = fields.Boolean('SepticTankYesNo')
+    garbage_segrigation = fields.Char('GarbageSegrigation')
+    garbage_disposal = fields.Char('GarbageDisposal')
+    septic_tank_yes_no = fields.Char('SepticTankYesNo')
     
     # Water Meter Information
-    water_meter_yes_no = fields.Boolean('WaterMeterYesNo')
-    water_connection_year = fields.Integer('WaterConnectionYear')
+    water_meter_yes_no = fields.Char('WaterMeterYesNo')
+    water_connection_year = fields.Char('WaterConnectionYear')
     
     # License Information
     licence_no = fields.Char('LicenceNo')
     licence_date = fields.Date('LicenceDate')
     
     # Property Construction Information
-    year_of_permission = fields.Integer('YearOfPermission')
-    year_of_construction = fields.Integer('YearOfConstruction')
-    building_age = fields.Integer('BuildingAge')
-    building_year = fields.Integer('BuildingYear')
+    year_of_permission = fields.Char('YearOfPermission')
+    year_of_construction = fields.Char('YearOfConstruction')
+    building_age = fields.Char('BuildingAge')
+    building_year = fields.Char('BuildingYear')
     build_completion_date = fields.Date('BuildCompletionDate')
+
+    oid = fields.Date('Oid')
+
     
     # Fire, Water Meter, ETP, and Waste Information
-    is_fire = fields.Boolean('IsFire')
-    no_of_fire = fields.Integer('NoOfFire')
+    is_fire = fields.Char('IsFire')
+    no_of_fire = fields.Char('NoOfFire')
     water_meter_condition = fields.Char('WaterMeterCondition')
-    is_water_motar = fields.Boolean('IsWaterMotar')
+    is_water_motar = fields.Char('IsWaterMotar')
     water_connection_no = fields.Char('WaterConnectionNo')
     water_consumer_no = fields.Char('WaterConsumerNo')
-    is_etp = fields.Boolean('IsETP')
+    is_etp = fields.Char('IsETP')
     
     # Composting and Sewage Information
-    is_home_composting = fields.Boolean('IsHomeComposting')
-    is_vermicompost = fields.Boolean('IsVermicompost')
-    is_echarging = fields.Boolean('IsECharging')
-    is_sewage_water = fields.Boolean('IsSewageWater')
+    is_home_composting = fields.Char('IsHomeComposting')
+    is_vermicompost = fields.Char('IsVermicompost')
+    is_echarging = fields.Char('IsECharging')
+    is_sewage_water = fields.Char('IsSewageWater')
     
     # Permission and Certificate Information
-    is_const_permission = fields.Boolean('IsConstPermission')
-    const_completion_oc = fields.Boolean('ConstCompletionOC')
-    gunthewari_certificate = fields.Boolean('GunthewariCertificate')
+    is_const_permission = fields.Char('IsConstPermission')
+    const_completion_oc = fields.Char('ConstCompletionOC')
+    gunthewari_certificate = fields.Char('GunthewariCertificate')
     
     # Bukhand, Construction, and Animal Information
-    is_bukhand = fields.Boolean('IsBukhand')
-    is_construction = fields.Boolean('IsConstruction')
-    total_no_of_people = fields.Integer('TotalNoOfPeople')
+    is_bukhand = fields.Char('IsBukhand')
+    is_construction = fields.Char('IsConstruction')
+    total_no_of_people = fields.Char('TotalNoOfPeople')
     
     # Animal Information
-    is_animals = fields.Boolean('IsAnimals')
-    dog = fields.Integer('Dog')
-    cat = fields.Integer('Cat')
-    cow = fields.Integer('Cow')
-    buffalo = fields.Integer('Buffalo')
-    horse = fields.Integer('Horse')
-    oax = fields.Integer('Oax')
-    pig = fields.Integer('Pig')
-    donkey = fields.Integer('Donkey')
+    is_animals = fields.Char('IsAnimals')
+    dog = fields.Char('Dog')
+    cat = fields.Char('Cat')
+    cow = fields.Char('Cow')
+    buffalo = fields.Char('Buffalo')
+    horse = fields.Char('Horse')
+    oax = fields.Char('Oax')
+    pig = fields.Char('Pig')
+    donkey = fields.Char('Donkey')
     other = fields.Char('Other')
     
     # Additional Information
-    is_gotha = fields.Boolean('IsGotha')
+    is_gotha = fields.Char('IsGotha')
     oc_number = fields.Char('OCNumber')
+
+
+
 

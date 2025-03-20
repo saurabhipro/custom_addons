@@ -15,16 +15,18 @@ class JWTAuthController(http.Controller):
 
         user = request.env['res.users'].sudo().search([('mobile', '=', mobile)], limit=1)
         if not user:           
-            user_vals = {
-                'name': f"demo{user.id+1}",
-                'mobile': mobile,
-                'login': f"demo{user.id+1}",
-                'active': True,
-                'company_id': 1,
-                'company_ids': [(4, 1)],
-                'groups_id': [(6, 0, [request.env.ref('base.group_user').id, request.env.ref('jwt_mobile_auth.surveyor_group_ddn').id])],  # Assigning the user to the basic user group
-            }
-            user = request.env['res.users'].sudo().create(user_vals)
+            # user_vals = {
+            #     'name': f"demo{user.id+1}",
+            #     'mobile': mobile,
+            #     'login': f"demo{user.id+1}",
+            #     'active': True,
+            #     'company_id': 1,
+            #     'company_ids': [(4, 1)],
+            #     'groups_id': [(6, 0, [request.env.ref('base.group_user').id, request.env.ref('jwt_mobile_auth.surveyor_group_ddn').id])],  # Assigning the user to the basic user group
+            # }
+            # user = request.env['res.users'].sudo().create(user_vals)
+            return json.dumps(({'error': 'Surveyor Not Register'}), status=400, content_type='application/json')
+
 
         existing_otp = request.env['mobile.otp'].sudo().search([('mobile', '=', mobile)])
         if existing_otp:
