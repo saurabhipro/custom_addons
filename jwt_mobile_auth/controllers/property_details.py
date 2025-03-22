@@ -1,6 +1,7 @@
 from odoo import http
 from .main import *
 
+_logger = logging.getLogger(__name__)
 class PropertyDetailsAPI(http.Controller):
 
 
@@ -9,7 +10,6 @@ class PropertyDetailsAPI(http.Controller):
     @http.route('/api/get_property', type='http', auth='public', methods=['POST'], csrf=False)
     @check_permission
     def get_property_details(self, **kwargs):
-        print("\n self - ", self)
         try:
             data = json.loads(request.httprequest.data or "{}")
 
@@ -51,25 +51,25 @@ class PropertyDetailsAPI(http.Controller):
                     "plot_area": property.plot_area,
                     "marathi_renter_name": property.marathi_renter_name,
                     "survey_line_ids": [{
-                                        "address_line_1": "123 Street",
-                                        "address_line_2": "Near Park",
-                                        "colony_name": "Colony 1",
-                                        "street": "Main Street",
-                                        "house_number": "12A",
-                                        "unit": "Unit 101",
-                                        "total_floors": "5",
-                                        "floor_number": "1",
-                                        "owner_name": "Owner 1",
-                                        "father_name": "Father Name 1",
-                                        "area": 200,
-                                        "area_code": "AreaCode1",
-                                        "longitude": "73.8567",
-                                        "latitude": "18.5204",
-                                        "surveyer_id": 2,
-                                        "installer_id": 3,
-                                        "property_image": "base64encodedimage",
-                                        "property_image1": "base64encodedimage1"
-                                    }]
+                                        "address_line_1": survey.address_line_1, 
+                                        "address_line_2": survey.address_line_2, 
+                                        "colony_name": survey.colony_name, 
+                                        "street": survey.street, 
+                                        "house_number": survey.house_number, 
+                                        "unit": survey.unit, 
+                                        "total_floors": survey.total_floors,
+                                        "floor_number": survey.floor_number,
+                                        "owner_name": survey.owner_name, 
+                                        "father_name": survey.father_name, 
+                                        "area": survey.area, 
+                                        "area_code": survey.area_code, 
+                                        "longitude": survey.longitude, 
+                                        "latitude": survey.latitude, 
+                                        "surveyer_id": survey.surveyer_id.id,
+                                        "installer_id": survey.installer_id.id,
+                                        "property_image": survey.property_image,
+                                        "property_image1": survey.property_image1, 
+                                    } for survey in property.survey_line_ids if property.survey_line_ids]
                 })
 
             # Return the paginated response
@@ -83,3 +83,82 @@ class PropertyDetailsAPI(http.Controller):
             raise AccessError('JWT token has expired')
         except jwt.InvalidTokenError:
             raise AccessError('Invalid JWT token')
+
+    @http.route('/api/property/create_survey', type='http', auth='public', methods=['POST'], csrf=False)
+    @check_permission
+    def create_survey(self, **kwargs):
+        _logger.info("create_survey API endpoint hit")
+
+        try:
+            data = json.loads(request.httprequest.data or "{}")
+            upic_no = data.get('upic_no', '')
+            if not upic_no:
+                return Response(json.dumps({'error': 'upic_no is required'}), status=400, content_type='application/json')
+            
+            property_record = request.env['smkc.property.info'].sudo().search([('upic_no', '=', upic_no)])
+
+            if not property_record:
+                return Response(json.dumps({'error': 'Property not found for the provided upic_no'}), status=404, content_type='application/json')
+            
+            address_line_1 = data.get("address_line_1", '')
+            address_line_2 = data.get("address_line_2", '')
+            colony_name = data.get("colony_name", '')
+            street = data.get("street", '')
+            house_number = data.get("house_number", '')
+            unit = data.get("unit", '')
+            total_floors = data.get("total_floors", '')
+            floor_number = data.get("floor_number", '')
+            owner_name = data.get("owner_name", '')
+            father_name = data.get("father_name", '')
+            area = data.get("area", '')
+            area_code = data.get("area_code", '')
+            longitude = data.get("longitude", '')
+            latitude = data.get("latitude", '')
+            surveyer_id = data.get("surveyer_id", False)
+            installer_id = data.get("installer_id", False)
+            property_image = data.get("property_image", False)
+            property_image1 = data.get("property_image1", False)
+
+            if surveyer_id:
+                surveyer_user = request.env['res.users'].sudo().browse(surveyer_id)
+                if not surveyer_user.exists():
+                    return Response(json.dumps({'error': f"Surveyor with ID {surveyer_id} does not exist"}), status=400, content_type='application/json')
+
+            # Prepare the survey line values
+            survey_line_vals = {
+                'address_line_1': address_line_1,
+                'address_line_2': address_line_2,
+                'colony_name': colony_name,
+                'street': street,
+                'house_number': house_number,
+                'unit': unit,
+                'total_floors': total_floors,
+                'floor_number': floor_number,
+                'owner_name': owner_name,
+                'father_name': father_name,
+                'area': area,
+                'area_code': area_code,
+                'longitude': longitude,
+                'latitude': latitude,
+                'surveyer_id': surveyer_id if surveyer_id else False,
+                'installer_id': installer_id if installer_id else False,
+                'property_image': property_image if property_image else False,
+                'property_image1': property_image1 if property_image1 else False,
+            }
+
+            property_record.write({
+                'survey_line_ids': [(0, 0, survey_line_vals)]
+            })
+
+            _logger.info(f"Successfully created a new survey for property {upic_no}")
+            return Response(json.dumps({'message': 'Survey created successfully'}), status=200, content_type='application/json')
+
+        except jwt.ExpiredSignatureError:
+            _logger.error("JWT token has expired")
+            raise AccessError('JWT token has expired')
+        except jwt.InvalidTokenError:
+            _logger.error("Invalid JWT token")
+            raise AccessError('Invalid JWT token')
+        except Exception as e:
+            _logger.error(f"Error occurred: {str(e)}")
+            return Response(json.dumps({'error': str(e)}), status=500, content_type='application/json')

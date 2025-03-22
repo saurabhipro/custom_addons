@@ -24,6 +24,4 @@ class SurveyParameters(models.Model):
     property_image = fields.Binary() 
     property_image1 = fields.Binary() 
 
-    _sql_constraints = [
-        ('unique_property_id', 'UNIQUE(property_id)', 'The Property ID must be unique.')
-    ]
+    
