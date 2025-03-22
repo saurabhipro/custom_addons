@@ -4,6 +4,7 @@ class PropertyInfo(models.Model):
     _name = 'smkc.property.info'
     _description = 'Property Information'
     _inherit = ['mail.thread']
+    _rec_name = "upic_no"
 
 
     # Owner Information
@@ -15,11 +16,9 @@ class PropertyInfo(models.Model):
         ('unlocked','Unlocked'),
         ('discovered', 'Discovered')
          ], string="Property Status", default="uploaded")
-    property_image = fields.Binary() 
-    property_image1 = fields.Binary() 
-
-    owner_id = fields.Char('OwnerID')
-    upic_no = fields.Char('UPICNO')
+    
+    owner_id = fields.Char('Owner ID')
+    upic_no = fields.Char('UPIC NO')
 
     _sql_constraints = [
         ('unique_upic_no', 'UNIQUE(upic_no)', 'The UPICNO must be unique.')
@@ -29,126 +28,126 @@ class PropertyInfo(models.Model):
     
     # Zone and Ward Information
     zone = fields.Char('Zone')
-    new_zone_no = fields.Char('NewZoneNo')
-    new_ward_no = fields.Char('NewWardNo')
-    new_property_no = fields.Char('NewPropertyNo')
-    new_partition_no = fields.Char('NewPartitionNo')
-    new_city_survey_no = fields.Char('NewCityServeyNo')
-    new_plot_no = fields.Char('NewPlotNo')
-    old_zone_no = fields.Char('OldZoneNo')
-    old_ward_no = fields.Char('OldWardNo')
-    old_property_no = fields.Char('OldPropertyNo')
+    new_zone_no = fields.Char('New Zone No')
+    new_ward_no = fields.Char('New Ward No')
+    new_property_no = fields.Char('New Property No')
+    new_partition_no = fields.Char('New Partition No')
+    new_city_survey_no = fields.Char('New CityServey No')
+    new_plot_no = fields.Char('New Plot No')
+    old_zone_no = fields.Char('Old Zone No')
+    old_ward_no = fields.Char('Old Ward No')
+    old_property_no = fields.Char('Old Property No')
     
     # Billing Information
-    bill_no = fields.Char('BillNo')
-    property_description = fields.Text('PropertyDescription')
+    bill_no = fields.Char('Bill No')
+    property_description = fields.Text('Property Description')
     
     # Plot Information
-    plot_area = fields.Char('PlotArea')  # In Sq. Ft. or desired unit
-    mobile_no = fields.Char('MobileNo')
+    plot_area = fields.Char('Plot Area')  # In Sq. Ft. or desired unit
+    mobile_no = fields.Char('Mobile No')
     
     # Old Rent Information
-    old_rental_value = fields.Char('OldRentalValue')
-    old_rv = fields.Char('OldRV')
-    old_property_tax = fields.Char('OldPropertyTax')
-    old_total_tax = fields.Char('OldTotalTax')
+    old_rental_value = fields.Char('Old Rental Value')
+    old_rv = fields.Char('Old RV')
+    old_property_tax = fields.Char('Old Property Tax')
+    old_total_tax = fields.Char('Old Total Tax')
     
     # New Property Information
-    new_toilet_no = fields.Char('NewToiletNo')
-    plot_taxable_area_sqft = fields.Char('PlotTaxableAreaSqFt')
+    new_toilet_no = fields.Char('New Toilet No')
+    plot_taxable_area_sqft = fields.Char('Plot Taxable Area SqFt')
     
     # Marathi Names
-    marathi_owner_name = fields.Char('MarathiOwnerName')
-    marathi_renter_name = fields.Char('MarathiRenterName')
-    marathi_occupier_name = fields.Char('MarathiOccupierName')
-    marathi_owner_patta = fields.Char('MarathiOwnerPatta')
-    marathi_owner_dukan_imarate_nav = fields.Char('MarathiOwnerDukanImarateNav')
-    marathi_owner_dukan_flat_no = fields.Char('MarathiOwnerDukanFlatNo')
+    marathi_owner_name = fields.Char('Marathi Owner Name')
+    marathi_renter_name = fields.Char('Marathi Renter Name')
+    marathi_occupier_name = fields.Char('Marathi Occupier Name')
+    marathi_owner_patta = fields.Char('Marathi Owner Patta')
+    marathi_owner_dukan_imarate_nav = fields.Char('Marathi Owner Dukan Imarate Nav')
+    marathi_owner_dukan_flat_no = fields.Char('Marathi Owner Dukan Flat No')
     
     # Remarks
-    comb_prop_remark = fields.Text('CombPropRemark')
+    comb_prop_remark = fields.Text('Comb Prop Remark')
     
     # Location Information
     latitude = fields.Char('Latitude')
     longitude = fields.Char('Longitude')
     
     # Property Infrastructure Information
-    road_width = fields.Char('RoadWidth')
-    no_of_trees = fields.Char('NoOfTrees')
+    road_width = fields.Char('Road Width')
+    no_of_trees = fields.Char('No Of Trees')
     
     # Solar, Bore, Water, and Rainwater Information
-    is_solar = fields.Char('IsSolar')
-    no_of_solar = fields.Char('NoOfSolar')
-    is_bore = fields.Char('IsBoar')
-    no_of_bore = fields.Char('NoOfBoar')
-    is_rainwater_harvesting = fields.Char('IsRainwaterharvesting')
-    no_of_rain_water_harvesting = fields.Char('NoOfRainWaterharvesting')
+    is_solar = fields.Char('Is Solar')
+    no_of_solar = fields.Char('No Of Solar')
+    is_bore = fields.Char('Is Boar')
+    no_of_bore = fields.Char('No Of Boar')
+    is_rainwater_harvesting = fields.Char('Is Rain water harvesting')
+    no_of_rain_water_harvesting = fields.Char('No Of Rain Water harvesting')
     
     # Water Connection and Hand Pump Information
-    is_water_conn_status = fields.Char('IsWarterConnStatus')
-    is_hand_pump = fields.Char('IsHandPump')
-    no_of_hand_pump = fields.Char('NoOfHandPump')
-    is_well = fields.Char('IsWell')
-    no_of_well = fields.Char('NoOfWell')
+    is_water_conn_status = fields.Char('Is Warter Conn Status')
+    is_hand_pump = fields.Char('Is Hand Pump')
+    no_of_hand_pump = fields.Char('No Of Hand Pump')
+    is_well = fields.Char('Is Well')
+    no_of_well = fields.Char('No Of Well')
     
     # Lift, Drain, and Building Information
-    is_lift = fields.Char('IsLift')
-    no_of_lift = fields.Char('NoOfLift')
+    is_lift = fields.Char('Is Lift')
+    no_of_lift = fields.Char('No Of Lift')
     drain = fields.Char('Drain')
-    building_permissions = fields.Char('BuildingPermissions')
-    building_advertise = fields.Char('BuildingAdvertise')
-    building_advertise_type = fields.Char('BuildingAdvertiseType')
+    building_permissions = fields.Char('Building Permissions')
+    building_advertise = fields.Char('Building Advertise')
+    building_advertise_type = fields.Char('Building Advertise Type')
     
     # Garbage Information
-    garbage_segrigation = fields.Char('GarbageSegrigation')
-    garbage_disposal = fields.Char('GarbageDisposal')
-    septic_tank_yes_no = fields.Char('SepticTankYesNo')
+    garbage_segrigation = fields.Char('Garbage Segrigation')
+    garbage_disposal = fields.Char('Garbage Disposal')
+    septic_tank_yes_no = fields.Char('Septic Tank Yes/No')
     
     # Water Meter Information
-    water_meter_yes_no = fields.Char('WaterMeterYesNo')
-    water_connection_year = fields.Char('WaterConnectionYear')
+    water_meter_yes_no = fields.Char('Water Meter Yes/No')
+    water_connection_year = fields.Char('Water Connection Year')
     
     # License Information
-    licence_no = fields.Char('LicenceNo')
-    licence_date = fields.Date('LicenceDate')
+    licence_no = fields.Char('Licence No')
+    licence_date = fields.Date('Licence Date')
     
     # Property Construction Information
-    year_of_permission = fields.Char('YearOfPermission')
-    year_of_construction = fields.Char('YearOfConstruction')
-    building_age = fields.Char('BuildingAge')
-    building_year = fields.Char('BuildingYear')
-    build_completion_date = fields.Date('BuildCompletionDate')
+    year_of_permission = fields.Char('Year Of Permission')
+    year_of_construction = fields.Char('Year Of Construction')
+    building_age = fields.Char('Building Age')
+    building_year = fields.Char('Building Year')
+    build_completion_date = fields.Date('Build Completion Date')
 
     oid = fields.Date('Oid')
 
     
     # Fire, Water Meter, ETP, and Waste Information
-    is_fire = fields.Char('IsFire')
-    no_of_fire = fields.Char('NoOfFire')
-    water_meter_condition = fields.Char('WaterMeterCondition')
-    is_water_motar = fields.Char('IsWaterMotar')
-    water_connection_no = fields.Char('WaterConnectionNo')
-    water_consumer_no = fields.Char('WaterConsumerNo')
-    is_etp = fields.Char('IsETP')
+    is_fire = fields.Char('Is Fire')
+    no_of_fire = fields.Char('No Of Fire')
+    water_meter_condition = fields.Char('Water Meter Condition')
+    is_water_motar = fields.Char('Is Water Motar')
+    water_connection_no = fields.Char('Water Connection No')
+    water_consumer_no = fields.Char('Water Consumer No')
+    is_etp = fields.Char('Is ETP')
     
     # Composting and Sewage Information
-    is_home_composting = fields.Char('IsHomeComposting')
-    is_vermicompost = fields.Char('IsVermicompost')
-    is_echarging = fields.Char('IsECharging')
-    is_sewage_water = fields.Char('IsSewageWater')
+    is_home_composting = fields.Char('Is Home Composting')
+    is_vermicompost = fields.Char('Is Vermi compost')
+    is_echarging = fields.Char('Is ECharging')
+    is_sewage_water = fields.Char('Is Sewage Water')
     
     # Permission and Certificate Information
-    is_const_permission = fields.Char('IsConstPermission')
-    const_completion_oc = fields.Char('ConstCompletionOC')
-    gunthewari_certificate = fields.Char('GunthewariCertificate')
+    is_const_permission = fields.Char('Is Const Permission')
+    const_completion_oc = fields.Char('Const Completion OC')
+    gunthewari_certificate = fields.Char('Gunthewari Certificate')
     
     # Bukhand, Construction, and Animal Information
-    is_bukhand = fields.Char('IsBukhand')
-    is_construction = fields.Char('IsConstruction')
-    total_no_of_people = fields.Char('TotalNoOfPeople')
+    is_bukhand = fields.Char('Is Bukhand')
+    is_construction = fields.Char('Is Construction')
+    total_no_of_people = fields.Char('Total No Of People')
     
     # Animal Information
-    is_animals = fields.Char('IsAnimals')
+    is_animals = fields.Char('Is Animals')
     dog = fields.Char('Dog')
     cat = fields.Char('Cat')
     cow = fields.Char('Cow')
@@ -160,8 +159,8 @@ class PropertyInfo(models.Model):
     other = fields.Char('Other')
     
     # Additional Information
-    is_gotha = fields.Char('IsGotha')
-    oc_number = fields.Char('OCNumber')
+    is_gotha = fields.Char('Is Gotha')
+    oc_number = fields.Char('OC Number')
 
 
 

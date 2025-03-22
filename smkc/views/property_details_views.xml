@@ -5,10 +5,6 @@
             <field name="model">smkc.property.info</field>
             <field name="arch" type="xml">
                 <list>
-                
-                    <field name="property_image" widget="image" optional="show"/>
-                    <field name="property_image1" widget="image" optional="show"/>
-     
                     <field name="owner_id" optional="show"/>
                     <field name="upic_no" optional="show"/>
                     <field name="zone" optional="show"/>
@@ -18,7 +14,7 @@
                     <field name="new_plot_no" optional="hide"/>
                     <field name="bill_no" optional="hide"/>
                     <field name="property_description" optional="show"/>
-                    <field name="plot_area" optional="show"/>
+                    <field name="plot_area" optional="hide"/>
                     <field name="mobile_no" optional="show"/>
                     <field name="old_rental_value" optional="hide"/>
                     <field name="old_property_tax" optional="hide"/>
@@ -27,15 +23,13 @@
                     <field name="plot_taxable_area_sqft" optional="hide"/>
 
                     <field name="marathi_owner_name" optional="show"/>
-                    <field name="marathi_renter_name" optional="show"/>
-                    <field name="marathi_occupier_name" optional="show"/>
-                    <field name="marathi_owner_dukan_imarate_nav" optional="show"/>
-
-
-
+                    <field name="marathi_renter_name" optional="hide"/>
+                    <field name="marathi_occupier_name" optional="hide"/>
+                    <field name="marathi_owner_dukan_imarate_nav" optional="hide"/>
 
                     <field name="latitude" optional="show"/>
                     <field name="longitude" optional="show"/>
+                    <field name="property_status" widget="badge"/>     
                     <field name="road_width" optional="hide"/>
                     <field name="no_of_trees" optional="hide"/>
                     <field name="is_solar" optional="hide"/>
@@ -107,38 +101,35 @@
             <field name="arch" type="xml">
                 <form string="Property Information">
                     <header>
-                        <field name="property_status" widget="statusbar"/>
+                        <field name="property_status" widget="statusbar"  options="{'clickable': '1'}"/>
                     </header>
                     <sheet>
                         <group>
                             <group>
                                 <field name="owner_id"/>
                                 <field name="upic_no"/>
-                                <field name="owner_id" optional="show"/>
-                                <field name="upic_no" optional="show"/>
-                                <field name="zone" optional="show"/>
-                                <field name="new_zone_no" optional="show"/>
-
+                                <field name="zone"/>
+                                <field name="new_zone_no"/>
+                                <field name="new_ward_no"/>
+                                <field name="latitude"/>
+                                <field name="longitude"/>
                             </group>
-                        
                             <group>
-                                <field name="new_ward_no" optional="show"/>
-                                <field name="property_description" optional="show"/>
-                                <field name="plot_area" optional="show"/>
-                                <field name="mobile_no" optional="show"/>
-                                <field name="marathi_owner_name" optional="show"/>
-                                <field name="marathi_renter_name" optional="show"/>
-                                <field name="marathi_occupier_name" optional="show"/>
-                                <field name="marathi_owner_dukan_imarate_nav" optional="show"/>
-                                <field name="latitude" optional="show"/>
-                                <field name="longitude" optional="show"/>
-                                
+                                <field name="mobile_no"/>
+                                <field name="marathi_owner_name"/>
+                                <field name="marathi_occupier_name"/>
+                                <field name="marathi_owner_dukan_imarate_nav"/>
+                                <field name="plot_area"/>
+                                <field name="marathi_renter_name"/>
                             </group>
+                        </group>
+                        <group>
+                            <field name="property_description"/>
                         </group>
 
                         <notebook>
-                            <page string="Property Survy">
-                                <field name="survey_line_ids" context="{'default_owner_name': marathi_owner_name, 'deafult_longitude':longitude, 'deafult_latitude':latitude}">
+                            <page string="Property Survey">
+                                <field name="survey_line_ids" context="{'default_owner_name': marathi_owner_name, 'default_longitude':longitude, 'default_latitude':latitude}">
                                     <form string="Survey Parameters">
                                         <sheet>
                                             <group>
@@ -181,6 +172,19 @@
                                                     <field name="installer_id"/>
                                                 </group>
                                             </group>
+                                            <h4>Property Survey</h4>
+                                            <group>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <field name="property_image" widget="image" optional="show" 
+                                                                        style="max-width: 100px; max-height: 100px;"/>
+                                                    </div>
+                                                    <div class="col">
+                                                        <field name="property_image1" widget="image" optional="show" 
+                                                            style="max-width: 100px; max-height: 100px;"/>
+                                                    </div>
+                                                </div>
+                                            </group>
                                         </sheet>
                                     </form>
                                     <list string="Survey Parameters">
@@ -193,15 +197,31 @@
                                     </list>
                                 </field>
                             </page>
-                          
+
+                            <page string="Animal Info">
+                                <group>
+                                    <group>
+                                        <field name="is_animals"/>
+                                        <field name="dog"/>
+                                        <field name="cat"/>
+                                        <field name="cow"/>
+                                        <field name="buffalo"/>
+                                    </group>
+                                    <group>
+                                        <field name="horse"/>
+                                        <field name="oax"/>
+                                        <field name="pig"/>
+                                        <field name="donkey"/>
+                                        <field name="other"/>
+                                    </group>
+
+                                </group>
+                            </page>
 
                             <!-- Billing Information Tab -->
                             <page string="Other Info">
                                 <group>
                                     <group>
-                                        <field name="zone"/>
-                                        <field name="new_zone_no"/>
-                                        <field name="new_ward_no"/>
                                         <field name="new_property_no"/>
                                         <field name="new_partition_no"/>
                                         <field name="new_city_survey_no"/>
@@ -210,24 +230,16 @@
                                         <field name="old_ward_no"/>
                                         <field name="old_property_no"/>
                                         <field name="bill_no"/>
-                                        <field name="plot_area"/>
                                         <field name="mobile_no"/>
-                                        <field name="property_description"/>
                                         <field name="old_rental_value"/>
                                         <field name="old_rv"/>
                                         <field name="old_property_tax"/>
                                         <field name="old_total_tax"/>
                                         <field name="new_toilet_no"/>
                                         <field name="plot_taxable_area_sqft"/>
-                                        <field name="marathi_owner_name"/>
-                                        <field name="marathi_renter_name"/>
-                                        <field name="marathi_occupier_name"/>
                                         <field name="marathi_owner_patta"/>
-                                        <field name="marathi_owner_dukan_imarate_nav"/>
                                         <field name="marathi_owner_dukan_flat_no"/>
                                         <field name="comb_prop_remark"/>
-                                        <field name="latitude"/>
-                                        <field name="longitude"/>
                                         <field name="road_width"/>
                                         <field name="no_of_trees"/>
 
@@ -285,46 +297,11 @@
                                         <field name="is_bukhand"/>
                                         <field name="is_construction"/>
                                         <field name="total_no_of_people"/>
-
-                                        <field name="is_animals"/>
-                                        <field name="dog"/>
-                                        <field name="cat"/>
-                                        <field name="cow"/>
-                                        <field name="buffalo"/>
-                                        <field name="horse"/>
-                                        <field name="oax"/>
-                                        <field name="pig"/>
-                                        <field name="donkey"/>
-                                        <field name="other"/>
-
-                                        <field name="is_gotha"/>
                                         <field name="oc_number"/>
                                     </group>
                                 </group>
                             </page>
-                            
-
-
-
-
-
                         </notebook>
-                        <h4>Property Survey</h4>
-                        
-
-                        <group>
-                            <div class="row">
-                                <div class="col">
-                                    <field name="property_image" widget="image" optional="show" 
-                                                    style="max-width: 100px; max-height: 100px;"/>
-                                </div>
-                                <div class="col">
-                                    <field name="property_image1" widget="image" optional="show" 
-                                        style="max-width: 100px; max-height: 100px;"/>
-                                </div>
-                            </div>
-                        </group>
-
 
                     </sheet>
                     <chatter/>

@@ -24,9 +24,8 @@ class JWTAuthController(http.Controller):
             #     'company_ids': [(4, 1)],
             #     'groups_id': [(6, 0, [request.env.ref('base.group_user').id, request.env.ref('jwt_mobile_auth.surveyor_group_ddn').id])],  # Assigning the user to the basic user group
             # }
-            # user = request.env['res.users'].sudo().create(user_vals)
-            return json.dumps(({'error': 'Surveyor Not Register'}), status=400, content_type='application/json')
-
+            return Response(json.dumps({'error': 'Surveyor Not Register'}), status=400, content_type='application/json')
+        
 
         existing_otp = request.env['mobile.otp'].sudo().search([('mobile', '=', mobile)])
         if existing_otp:
@@ -44,11 +43,12 @@ class JWTAuthController(http.Controller):
         })
 
         try:
-            msg = f"Your SELECTIAL OPT {otp_code}"
             api_url = f"https://webmsg.smsbharti.com/app/smsapi/index.php?key=5640415B1D6730&campaign=0&routeid=9&type=text&contacts={mobile}&senderid=SPTSMS&msg=Your%20otp%20is%20{otp_code}%20SELECTIAL&template_id=1707166619134631839"
             response = requests.get(api_url)
             if response.status_code == 200:
-                return Response(json.dumps({'message': 'OTP sent successfully','details': response.text}), status=400, content_type='application/json')
+                if 'ERR' in response.text:
+                    return Response(json.dumps({'message': 'Invalid Mobile','details': response.text}), status=400, content_type='application/json')
+                return Response(json.dumps({'message': 'OTP sent successfully','details': response.text}), status=200, content_type='application/json')
             else:
                 return Response(
                     json.dumps({'error': 'Failed to send OTP via SMS API', 'details': response.text}), status=400, content_type='application/json')
@@ -90,7 +90,7 @@ class JWTAuthController(http.Controller):
 
         request.env['jwt.token'].sudo().create({'user_id': user, 'token': token})
 
-        return Response( json.dumps({'user_id': user, 'token': token}), status=400, content_type='application/json' )
+        return Response( json.dumps({'user_id': user, 'token': token}), status=200, content_type='application/json' )
 
     """ API CRUD """
     @http.route('/api/get_contacts', type='json', auth='none', methods=['POST'], csrf=False)

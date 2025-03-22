@@ -15,27 +15,44 @@ import jwt
 print(jwt.__file__)
 
 from odoo.exceptions import AccessError, UserError
+from functools import wraps
 
 
-def check_permission(token):
-    print("function - ")
-    if not token:
-        raise AccessError('Authorization header is missing or invalid')
+def check_permission(func):
+    @wraps(func)
+    def wrapper(self, *args, **kwargs):
+        print("khfksdhf - ")
+        token = request.httprequest.headers.get('Authorization')
+        print("Function - Checking token", token)
 
-    try:
-        if token.startswith("Bearer "):
-            token = token[7:]
+        if not token:
+            raise AccessError('Authorization header is missing or invalid')
 
-        decoded_token = jwt.decode(token, options={"verify_signature": False})
-        print("decoded token - ", decoded_token)
-        user_id = decoded_token['user_id']
-        print("user_id - ", user_id)
-        
-        user_id = request.env['res.users'].sudo().search([('id', '=', user_id)])
-        if user_id :
-            return user_id
+        try:
+            # Check if the token starts with "Bearer " and extract it
+            if token.startswith("Bearer "):
+                token = token[7:]
 
-    except jwt.ExpiredSignatureError:
+            decoded_token = jwt.decode(token, options={"verify_signature": False})
+            print("Decoded token - ", decoded_token)
+            user_id = decoded_token['user_id']
+            print("User ID - ", user_id)
+
+            # Check if the user exists
+            user = request.env['res.users'].sudo().search([('id', '=', user_id)])
+            if not user:
+                raise AccessError('Invalid user or token')
+
+            # You can assign the user to the request object if needed
+            request.env.user = user
+
+        except jwt.ExpiredSignatureError:
             raise AccessError('JWT token has expired')
-    except jwt.InvalidTokenError:
-        raise AccessError('Invalid JWT token')
+        except jwt.InvalidTokenError:
+            raise AccessError('Invalid JWT token')
+
+        # Proceed to the actual function after permission check
+        return func(self, *args, **kwargs)
+
+    return wrapper
+
