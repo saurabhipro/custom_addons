@@ -1,9 +1,5 @@
 <odoo>
     <data>
-
-        
-
-        
         <!-- list and Form View for Ward Model -->
         <record id="view_ward_list" model="ir.ui.view">
             <field name="name">smkc.ward.list</field>
@@ -24,7 +20,7 @@
                     <sheet>
                         <group>
                             <field name="name"/>
-                            <field name="zone"/>
+                            <field name="zone" options="{'no_create_edit':True,'no_create':True}"/>
                         </group>
                     </sheet>
                 </form>

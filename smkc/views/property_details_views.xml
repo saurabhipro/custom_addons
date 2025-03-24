@@ -1,5 +1,7 @@
 <odoo>
     <data>
+
+        <!-- List -->
         <record id="view_property_info_list" model="ir.ui.view">
             <field name="name">smkc.property.info.list</field>
             <field name="model">smkc.property.info</field>
@@ -94,7 +96,7 @@
             </field>
         </record>
 
-
+        <!-- Form -->
         <record id="view_property_info_form" model="ir.ui.view">
             <field name="name">smkc.property.info.form</field>
             <field name="model">smkc.property.info</field>
@@ -104,6 +106,7 @@
                         <field name="property_status" widget="statusbar"  options="{'clickable': '1'}"/>
                     </header>
                     <sheet>
+                        <field name="qr_code" widget='image' class="oe_avatar"/>
                         <group>
                             <group>
                                 <field name="owner_id"/>
@@ -309,12 +312,42 @@
             </field>
         </record>
 
+        <!-- search -->
+        <record id="view_property_info_search" model="ir.ui.view">
+        <field name="name">smkc.property.info.search</field>
+        <field name="model">smkc.property.info</field>
+        <field name="arch" type="xml">
+            <search>
+                <!-- Define filters -->
+                <filter name="filter_upic_no" string="UPIC No" domain="[('upic_no', '!=', False)]"/>
+                <filter name="filter_zone" string="Zone" domain="[('new_zone_no', '!=', False)]"/>
+                <filter name="filter_ward" string="Ward" domain="[('new_ward_no', '!=', False)]"/>
+                <filter name="filter_mobile" string="Mobile" domain="[('mobile_no', '!=', False)]"/>
+                
+                <!-- Define search fields -->
+                <!-- <field name="upic_no" string="UPIC No."/>
+                <field name="new_zone_no" string="New Zone" domain="[('id', 'in', [new_zone_no.id])]"/>
+                <field name="new_ward_no" string="New Ward" domain="[('id', 'in', [new_ward_no.id])]"/>
+                <field name="marathi_owner_name" string="Marathi Owner Name"/>
+                <field name="mobile_no" string="Mobile No."/> -->
+
+                <!-- Define grouping options -->
+                <group expand="1">
+                    <field name="new_zone_no"/>
+                    <field name="new_ward_no"/>
+                    <field name="mobile_no"/>
+                </group>
+            </search>
+        </field>
+    </record>
+        
 
 
+        <!-- Action -->
         <record id="action_property_info" model="ir.actions.act_window">
             <field name="name">Property Information</field>
             <field name="res_model">smkc.property.info</field>
-            <field name="view_mode">list,form,graph,pivot</field>
+            <field name="view_mode">list,form,graph,pivot,search</field>
             <field name="view_id" ref="view_property_info_list"/>
         </record>
 

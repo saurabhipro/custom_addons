@@ -1,4 +1,10 @@
-from odoo import models, fields
+from odoo import models, fields, api
+import base64
+from io import BytesIO
+try:
+    import qrcode
+except ImportError:
+    qrcode = None  # If not installed, you'll need to pip install qrcode[pil]
 
 class PropertyInfo(models.Model):
     _name = 'smkc.property.info'
@@ -28,8 +34,8 @@ class PropertyInfo(models.Model):
     
     # Zone and Ward Information
     zone = fields.Char('Zone')
-    new_zone_no = fields.Char('New Zone No')
-    new_ward_no = fields.Char('New Ward No')
+    new_zone_no = fields.Many2one('smkc.zone', string='New Zone No')
+    new_ward_no = fields.Many2one('smkc.ward',string='New Ward No')
     new_property_no = fields.Char('New Property No')
     new_partition_no = fields.Char('New Partition No')
     new_city_survey_no = fields.Char('New CityServey No')
@@ -165,3 +171,19 @@ class PropertyInfo(models.Model):
 
 
 
+    qr_code = fields.Binary("QR Code", compute="_compute_qr_code", store=False)
+
+    @api.depends('new_zone_no', 'new_ward_no', 'new_property_no')
+    def _compute_qr_code(self):
+        """Generate a QR code based on property details."""
+        if not qrcode:
+            return  # If qrcode library is missing, skip
+        for rec in self:
+            data_to_encode = f"{rec.new_zone_no}-{rec.new_ward_no}-{rec.new_property_no}"
+            qr = qrcode.QRCode(version=1, box_size=4, border=2)
+            qr.add_data(data_to_encode)
+            qr.make(fit=True)
+            img = qr.make_image(fill_color="black", back_color="white")
+            temp = BytesIO()
+            img.save(temp, format="PNG")
+            rec.qr_code = base64.b64encode(temp.getvalue())

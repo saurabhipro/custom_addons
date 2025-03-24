@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+    
+        <!-- <record id="report_purchase_order_qweb" model="ir.actions.report">
+            <field name="name">Purchase Order Report</field>
+            <field name="model">purchase.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">in2it_purchase_order.purchase_order_template</field>
+            <field name="report_file">in2it_purchase_order.purchase_order_template</field>
+            <field name="print_report_name">'%s_%s' % ((object.name or 'Purchase Order').replace('/',''), (object.opportunity_id.site_id.gpn_id or '').replace('/',''))</field>
+            <field name="binding_model_id" ref="in2it_purchase_order.model_purchase_order"/>
+            <field name="binding_type">action</field>
+            <field name="paperformat_id" ref="in2it_purchase_order.purchase_order_pdf_report_format"/>
+        </record> -->
+
+
+    </data>
+</odoo>
