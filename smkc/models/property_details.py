@@ -49,14 +49,14 @@ class PropertyInfo(models.Model):
     property_description = fields.Text('Property Description')
     
     # Plot Information
-    plot_area = fields.Char('Plot Area')  # In Sq. Ft. or desired unit
+    plot_area = fields.Float('Plot Area')  # In Sq. Ft. or desired unit
     mobile_no = fields.Char('Mobile No')
     
     # Old Rent Information
-    old_rental_value = fields.Char('Old Rental Value')
-    old_rv = fields.Char('Old RV')
-    old_property_tax = fields.Char('Old Property Tax')
-    old_total_tax = fields.Char('Old Total Tax')
+    old_rental_value = fields.Float('Old Rental Value')
+    old_rv = fields.Float('Old RV')
+    old_property_tax = fields.Float('Old Property Tax')
+    old_total_tax = fields.Float('Old Total Tax')
     
     # New Property Information
     new_toilet_no = fields.Char('New Toilet No')
