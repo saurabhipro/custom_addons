@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Document Types -->
+        <record id="document_type_1" model="marriage.document.type">
+            <field name="name">Marriage Certificate</field>
+            <field name="name_marathi">विवाह प्रमाणपत्र</field>
+            <field name="code">MCERT</field>
+            <field name="sequence">1</field>
+            <field name="is_mandatory">True</field>
+            <field name="description">Official marriage certificate</field>
+        </record>
+        
+        <record id="document_type_2" model="marriage.document.type">
+            <field name="name">Identity Proof</field>
+            <field name="name_marathi">ओळख पुरावा</field>
+            <field name="code">IDPROOF</field>
+            <field name="sequence">2</field>
+            <field name="is_mandatory">True</field>
+            <field name="description">Aadhar card, PAN card, Voter ID, etc.</field>
+        </record>
+        
+        <record id="document_type_3" model="marriage.document.type">
+            <field name="name">Address Proof</field>
+            <field name="name_marathi">पत्ता पुरावा</field>
+            <field name="code">ADDRPROOF</field>
+            <field name="sequence">3</field>
+            <field name="is_mandatory">True</field>
+            <field name="description">Utility bill, Rental agreement, etc.</field>
+        </record>
+        
+        <record id="document_type_4" model="marriage.document.type">
+            <field name="name">Witness Statement</field>
+            <field name="name_marathi">साक्षीदार निवेदन</field>
+            <field name="code">WITNESS</field>
+            <field name="sequence">4</field>
+            <field name="is_mandatory">False</field>
+            <field name="description">Statement from witnesses</field>
+        </record>
+        
+        <record id="document_type_5" model="marriage.document.type">
+            <field name="name">Religious Certificate</field>
+            <field name="name_marathi">धार्मिक प्रमाणपत्र</field>
+            <field name="code">RELCERT</field>
+            <field name="sequence">5</field>
+            <field name="is_mandatory">False</field>
+            <field name="description">Certificate from religious authority</field>
+        </record>
+    </data>
+</odoo> 

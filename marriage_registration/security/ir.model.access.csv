@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_marriage_registration_user,marriage.registration.user,model_marriage_registration,group_marriage_user,1,1,1,0
+access_marriage_registration_manager,marriage.registration.manager,model_marriage_registration,group_marriage_manager,1,1,1,1
+access_marriage_registration_approver,marriage.registration.approver,model_marriage_registration,group_marriage_approver,1,1,1,1
+access_marriage_document_user,marriage.document.user,model_marriage_document,group_marriage_user,1,1,1,0
+access_marriage_document_manager,marriage.document.manager,model_marriage_document,group_marriage_manager,1,1,1,1
+access_marriage_document_type_user,marriage.document.type.user,model_marriage_document_type,group_marriage_user,1,0,0,0
+access_marriage_document_type_manager,marriage.document.type.manager,model_marriage_document_type,group_marriage_manager,1,1,1,1
+access_marriage_payment_user,marriage.payment.user,model_marriage_payment,group_marriage_user,1,1,1,0
+access_marriage_payment_manager,marriage.payment.manager,model_marriage_payment,group_marriage_manager,1,1,1,1 

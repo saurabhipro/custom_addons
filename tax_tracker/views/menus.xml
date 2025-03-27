@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem 
+        id="menu_tax_tracker_root"
+        name="Tax Tracker"
+        web_icon="tax_tracker,static/description/icon.png"
+        sequence="50"/>
+
+    <!-- Transactions Menu -->
+    <menuitem 
+        id="menu_tax_tracker_transaction"
+        name="Transactions"
+        parent="menu_tax_tracker_root"
+        action="action_tax_transaction"
+        sequence="10"/>
+
+    <!-- Configuration Menu -->
+    <menuitem 
+        id="menu_tax_tracker_config"
+        name="Configuration"
+        parent="menu_tax_tracker_root"
+        sequence="100"/>
+
+    <menuitem 
+        id="menu_tax_type"
+        name="Tax Types"
+        parent="menu_tax_tracker_config"
+        action="action_tax_type"
+        sequence="10"/>
+</odoo>

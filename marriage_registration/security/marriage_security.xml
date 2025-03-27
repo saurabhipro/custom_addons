@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="module_marriage_registration" model="ir.module.category">
+            <field name="name">Marriage Registration</field>
+            <field name="description">User access level for Marriage Registration</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="group_marriage_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_marriage_registration"/>
+        </record>
+
+        <record id="group_marriage_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_marriage_registration"/>
+            <field name="implied_ids" eval="[(4, ref('group_marriage_user'))]"/>
+        </record>
+
+        <record id="group_marriage_approver" model="res.groups">
+            <field name="name">Approver</field>
+            <field name="category_id" ref="module_marriage_registration"/>
+            <field name="implied_ids" eval="[(4, ref('group_marriage_manager'))]"/>
+        </record>
+    </data>
+</odoo> 

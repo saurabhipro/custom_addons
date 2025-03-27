@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Payment Form View -->
+    <record id="view_marriage_payment_form" model="ir.ui.view">
+        <field name="name">marriage.payment.form</field>
+        <field name="model">marriage.payment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_make_payment" string="Make Payment" type="object" 
+                            states="pending" class="oe_highlight"/>
+                    <button name="action_mark_as_paid" string="Mark as Paid (Demo)" type="object" 
+                            states="pending" groups="marriage_registration.group_marriage_manager"/>
+                    <field name="payment_status" widget="statusbar" 
+                           statusbar_visible="pending,paid"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="payment_reference" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="marriage_id" readonly="1"/>
+                            <field name="application_no" readonly="1"/>
+                            <field name="no_of_copies"/>
+                        </group>
+                        <group>
+                            <field name="delivery_method" widget="radio"/>
+                            <field name="post_type" attrs="{'invisible': [('delivery_method', '!=', 'post')], 'required': [('delivery_method', '=', 'post')]}"/>
+                        </group>
+                    </group>
+                    <group string="Payment Details">
+                        <group>
+                            <field name="certificate_charges" readonly="1"/>
+                            <field name="postal_charges" readonly="1"/>
+                            <field name="total_amount" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="payment_method" attrs="{'invisible': [('payment_status', '!=', 'pending')]}"/>
+                            <field name="transaction_id" readonly="1" attrs="{'invisible': [('transaction_id', '=', False)]}"/>
+                            <field name="payment_date" readonly="1" attrs="{'invisible': [('payment_date', '=', False)]}"/>
+                        </group>
+                    </group>
+                    <group string="Certificate Details" attrs="{'invisible': [('certificate_status', '=', 'pending')]}">
+                        <group>
+                            <field name="certificate_status" readonly="1"/>
+                            <field name="certificate_delivery_date" readonly="1" attrs="{'invisible': [('certificate_delivery_date', '=', False)]}"/>
+                        </group>
+                        <group>
+                            <field name="certificate_download_link" readonly="1" widget="url" attrs="{'invisible': [('certificate_download_link', '=', False)]}"/>
+                            <field name="tracking_number" readonly="1" attrs="{'invisible': [('tracking_number', '=', False)]}"/>
+                            <field name="tracking_link" readonly="1" widget="url" attrs="{'invisible': [('tracking_link', '=', False)]}"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Payment Tree View -->
+    <record id="view_marriage_payment_tree" model="ir.ui.view">
+        <field name="name">marriage.payment.tree</field>
+        <field name="model">marriage.payment</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="payment_status == 'paid'" decoration-danger="payment_status == 'failed'" decoration-info="payment_status == 'pending'">
+                <field name="payment_reference"/>
+                <field name="application_no"/>
+                <field name="no_of_copies"/>
+                <field name="delivery_method"/>
+                <field name="total_amount"/>
+                <field name="payment_status"/>
+                <field name="certificate_status"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Payment Action -->
+    <record id="action_marriage_payment" model="ir.actions.act_window">
+        <field name="name">Certificate Payments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">marriage.payment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first certificate payment!
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_marriage_payment"
+              name="Certificate Payments"
+              parent="menu_marriage_root"
+              action="action_marriage_payment"
+              sequence="30"/>
+</odoo> 

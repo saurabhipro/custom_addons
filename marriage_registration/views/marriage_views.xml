@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_marriage_registration_tree" model="ir.ui.view">
+        <field name="name">marriage.registration.tree</field>
+        <field name="model">marriage.registration</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="state == 'draft'" decoration-warning="state == 'submitted'" 
+                  decoration-success="state == 'approved'" decoration-danger="state == 'rejected'">
+                <field name="registration_number"/>
+                <field name="appli_name"/>
+                <field name="zone"/>
+                <field name="mrg_date"/>
+                <field name="mobile_no"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_marriage_registration_form" model="ir.ui.view">
+        <field name="name">marriage.registration.form</field>
+        <field name="model">marriage.registration</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" string="Submit" type="object" 
+                            states="draft" class="oe_highlight"/>
+                    <button name="action_verify" string="Verify" type="object" 
+                            states="submitted" class="oe_highlight" 
+                            groups="marriage_registration.group_marriage_manager"/>
+                    <button name="action_approve" string="Approve" type="object" 
+                            states="verified" class="oe_highlight" 
+                            groups="marriage_registration.group_marriage_approver"/>
+                    <button name="action_reject" string="Reject" type="object" 
+                            states="submitted,verified" class="btn-danger" 
+                            groups="marriage_registration.group_marriage_approver"/>
+                    <button name="action_cancel" string="Cancel" type="object" 
+                            states="draft,submitted"/>
+                    <button name="action_create_payment" string="Request Certificate" type="object" 
+                            states="approved" class="oe_highlight"/>
+                    <field name="state" widget="statusbar" 
+                           statusbar_visible="draft,submitted,verified,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="registration_number" readonly="1"/>
+                        </h1>
+                        <h3>
+                            <field name="language" widget="radio" options="{'horizontal': true}"/>
+                        </h3>
+                    </div>
+                    <notebook>
+                        <page string="Application Entry">
+                            <group>
+                                <group>
+                                    <field name="zone" required="1"/>
+                                    <field name="appli_name" required="1"/>
+                                    <field name="address" required="1"/>
+                                    <field name="marriage_place_english" required="1"/>
+                                </group>
+                                <group>
+                                    <field name="mobile_no" required="1"/>
+                                    <field name="mrg_date" required="1"/>
+                                    <field name="marriage_place_marathi" required="1"/>
+                                </group>
+                            </group>
+                            <field name="document_ids">
+                                <tree editable="bottom">
+                                    <field name="sr_no"/>
+                                    <field name="is_selected"/>
+                                    <field name="document_type"/>
+                                    <field name="document_file" filename="file_name"/>
+                                    <field name="file_name" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Husband Details">
+                            <group>
+                                <group>
+                                    <field name="husband_full_name"/>
+                                    <field name="husband_religion"/>
+                                    <field name="husband_dob"/>
+                                    <field name="husband_age"/>
+                                    <field name="husband_status_before_marriage"/>
+                                </group>
+                                <group>
+                                    <field name="husband_address"/>
+                                    <field name="husband_photo" widget="image" class="oe_avatar"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Wife Details">
+                            <group>
+                                <group>
+                                    <field name="wife_full_name"/>
+                                    <field name="wife_religion"/>
+                                    <field name="wife_dob"/>
+                                    <field name="wife_age"/>
+                                    <field name="wife_status_before_marriage"/>
+                                </group>
+                                <group>
+                                    <field name="wife_address"/>
+                                    <field name="wife_photo" widget="image" class="oe_avatar"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Witness1 Details">
+                            <group>
+                                <group>
+                                    <field name="witness1_name"/>
+                                    <field name="witness1_age"/>
+                                </group>
+                                <group>
+                                    <field name="witness1_address"/>
+                                    <field name="witness1_photo" widget="image" class="oe_avatar"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Witness2 Details">
+                            <group>
+                                <group>
+                                    <field name="witness2_name"/>
+                                    <field name="witness2_age"/>
+                                </group>
+                                <group>
+                                    <field name="witness2_address"/>
+                                    <field name="witness2_photo" widget="image" class="oe_avatar"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Witness3 Details">
+                            <group>
+                                <group>
+                                    <field name="witness3_name"/>
+                                    <field name="witness3_age"/>
+                                </group>
+                                <group>
+                                    <field name="witness3_address"/>
+                                    <field name="witness3_photo" widget="image" class="oe_avatar"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Priest Details">
+                            <group>
+                                <group>
+                                    <field name="priest_name"/>
+                                    <field name="priest_religion"/>
+                                    <field name="priest_age"/>
+                                </group>
+                                <group>
+                                    <field name="priest_address"/>
+                                    <field name="priest_photo" widget="image" class="oe_avatar"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Certificates &amp; Payments" attrs="{'invisible': [('state', '!=', 'approved')]}">
+                            <group>
+                                <group>
+                                    <field name="payment_status"/>
+                                    <field name="certificate_status"/>
+                                </group>
+                            </group>
+                            <field name="payment_ids">
+                                <tree>
+                                    <field name="payment_reference"/>
+                                    <field name="no_of_copies"/>
+                                    <field name="delivery_method"/>
+                                    <field name="total_amount"/>
+                                    <field name="payment_status"/>
+                                    <field name="certificate_status"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_marriage_registration_search" model="ir.ui.view">
+        <field name="name">marriage.registration.search</field>
+        <field name="model">marriage.registration</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="registration_number"/>
+                <field name="appli_name"/>
+                <field name="zone"/>
+                <field name="mobile_no"/>
+                <separator/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Submitted" name="submitted" domain="[('state','=','submitted')]"/>
+                <filter string="Approved" name="approved" domain="[('state','=','approved')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="state" context="{'group_by': 'state'}"/>
+                    <filter string="Zone" name="zone" context="{'group_by': 'zone'}"/>
+                    <filter string="Marriage Date" name="mrg_date" context="{'group_by': 'mrg_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_marriage_registration" model="ir.actions.act_window">
+        <field name="name">Marriage Registrations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">marriage.registration</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_marriage_registration_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first marriage registration!
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_marriage_root"
+              name="Marriage Registration"
+              sequence="10"/>
+
+    <menuitem id="menu_marriage_master"
+              name="Registrations"
+              parent="menu_marriage_root"
+              sequence="10"/>
+
+    <menuitem id="menu_marriage_registration"
+              name="Marriage Applications"
+              parent="menu_marriage_master"
+              action="action_marriage_registration"
+              sequence="10"/>
+</odoo> 
