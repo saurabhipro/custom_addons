@@ -18,6 +18,9 @@
             <field name="arch" type="xml">
                 <form string="Ward">
                     <sheet>
+                        <header>
+                            <button type="object" name="action_print_property_plate_template" string="Generate Plate" class="oe_heighlight"/>
+                        </header>
                         <group>
                             <field name="name"/>
                             <field name="zone" options="{'no_create_edit':True,'no_create':True}"/>

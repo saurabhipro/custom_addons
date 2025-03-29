@@ -145,31 +145,26 @@
                                                     <field name="unit"/>
                                                 </group>
 
-                                                <!-- Property Details -->
                                                 <group>
                                                     <field name="total_floors"/>
                                                     <field name="floor_number"/>
                                                 </group>
 
-                                                <!-- Owner Information -->
                                                 <group>
                                                     <field name="owner_name"/>
                                                     <field name="father_name"/>
                                                 </group>
 
-                                                <!-- Area Information -->
                                                 <group>
                                                     <field name="area"/>
                                                     <field name="area_code"/>
                                                 </group>
 
-                                                <!-- Location Information -->
                                                 <group>
                                                     <field name="longitude"/>
                                                     <field name="latitude"/>
                                                 </group>
 
-                                                <!-- Survey & Installer Information -->
                                                 <group>
                                                     <field name="surveyer_id"/>
                                                     <field name="installer_id"/>
@@ -221,7 +216,6 @@
                                 </group>
                             </page>
 
-                            <!-- Billing Information Tab -->
                             <page string="Other Info">
                                 <group>
                                     <group>
@@ -313,138 +307,51 @@
         </record>
 
         <!-- search -->
-        <record id="view_property_info_search" model="ir.ui.view">
+    <record id="view_property_info_search" model="ir.ui.view">
         <field name="name">smkc.property.info.search</field>
         <field name="model">smkc.property.info</field>
         <field name="arch" type="xml">
             <search>
-                <!-- Define filters -->
-                <filter name="filter_upic_no" string="UPIC No" domain="[('upic_no', '!=', False)]"/>
-                <filter name="filter_zone" string="Zone" domain="[('new_zone_no', '!=', False)]"/>
-                <filter name="filter_ward" string="Ward" domain="[('new_ward_no', '!=', False)]"/>
-                <filter name="filter_mobile" string="Mobile" domain="[('mobile_no', '!=', False)]"/>
-                
-                <!-- Define search fields -->
-                <!-- <field name="upic_no" string="UPIC No."/>
-                <field name="new_zone_no" string="New Zone" domain="[('id', 'in', [new_zone_no.id])]"/>
-                <field name="new_ward_no" string="New Ward" domain="[('id', 'in', [new_ward_no.id])]"/>
-                <field name="marathi_owner_name" string="Marathi Owner Name"/>
-                <field name="mobile_no" string="Mobile No."/> -->
+                <field name="upic_no"/>
+                <!-- <field name="new_zone_no"/>
+                <field name="new_ward_no"/> -->
 
-                <!-- Define grouping options -->
+                <separator/>
+                <filter name="upic_no" string="UPIC No" domain="[('upic_no', '!=', False)]"/>
+                <filter name="new_zone_no" string="Zone" domain="[('new_zone_no', '!=', False)]"/>
+                <filter name="new_ward_no" string="Ward" domain="[('new_ward_no', '!=', False)]"/>
+                <filter name="mobile" string="Mobile" domain="[('mobile_no', '!=', False)]"/>
+                
                 <group expand="1">
                     <field name="new_zone_no"/>
                     <field name="new_ward_no"/>
                     <field name="mobile_no"/>
                 </group>
+
+                <group expand="0" string="Group By">
+                    <filter name="group_new_zone_no" string="Zone" domain="[]" context="{'group_by': 'new_zone_no'}"/>
+                    <filter name="group_new_ward_no" string="Ward" domain="[]" context="{'group_by': 'new_ward_no'}"/>
+                    <filter name="group_mobile_no" string="Mobile" domain="[]" context="{'group_by': 'mobile_no'}"/>
+                </group>
+
+
             </search>
         </field>
     </record>
         
 
 
-        <!-- Kanban with Dashboard -->
-        <record id="view_property_info_kanban" model="ir.ui.view">
-            <field name="name">smkc.property.info.kanban</field>
-            <field name="model">smkc.property.info</field>
-            <field name="arch" type="xml">
-                <kanban class="o_kanban_dashboard" create="false">
-                    <field name="property_status"/>
-                    <templates>
-                        <t t-name="kanban-box">
-                            <div class="container o_kanban_card_content">
-                                <div class="row mt16 mb16">
-                                    <!-- Zone Count -->
-                                    <div class="col-6 col-lg-3 mb-3">
-                                        <div class="card h-100 bg-light-subtle">
-                                            <div class="card-body text-center">
-                                                <h6 class="card-subtitle mb-2 text-muted">Zone</h6>
-                                                <h2 class="card-title mb-0"><field name="zone_count"/></h2>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Block Count -->
-                                    <div class="col-6 col-lg-3 mb-3">
-                                        <div class="card h-100 bg-warning-subtle">
-                                            <div class="card-body text-center">
-                                                <h6 class="card-subtitle mb-2 text-muted">Block</h6>
-                                                <h2 class="card-title mb-0"><field name="block_count"/></h2>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Uploaded Count -->
-                                    <div class="col-6 col-lg-3 mb-3">
-                                        <div class="card h-100 bg-info-subtle">
-                                            <div class="card-body text-center">
-                                                <h6 class="card-subtitle mb-2 text-muted">Uploaded</h6>
-                                                <h2 class="card-title mb-0"><field name="uploaded_count"/></h2>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- PDF Downloaded Count -->
-                                    <div class="col-6 col-lg-3 mb-3">
-                                        <div class="card h-100 bg-primary-subtle">
-                                            <div class="card-body text-center">
-                                                <h6 class="card-subtitle mb-2 text-muted">PDF Downloaded</h6>
-                                                <h2 class="card-title mb-0"><field name="pdf_downloaded_count"/></h2>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Plate Installed Count -->
-                                    <div class="col-6 col-lg-3 mb-3">
-                                        <div class="card h-100 bg-success-subtle">
-                                            <div class="card-body text-center">
-                                                <h6 class="card-subtitle mb-2 text-muted">Plate Installed</h6>
-                                                <h2 class="card-title mb-0"><field name="plate_installed_count"/></h2>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Surveyed Count -->
-                                    <div class="col-6 col-lg-3 mb-3">
-                                        <div class="card h-100 bg-secondary-subtle">
-                                            <div class="card-body text-center">
-                                                <h6 class="card-subtitle mb-2 text-muted">Surveyed</h6>
-                                                <h2 class="card-title mb-0"><field name="surveyed_count"/></h2>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Unlocked Count -->
-                                    <div class="col-6 col-lg-3 mb-3">
-                                        <div class="card h-100 bg-warning-subtle">
-                                            <div class="card-body text-center">
-                                                <h6 class="card-subtitle mb-2 text-muted">Unlocked</h6>
-                                                <h2 class="card-title mb-0"><field name="unlocked_count"/></h2>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Visit Again Count -->
-                                    <div class="col-6 col-lg-3 mb-3">
-                                        <div class="card h-100 bg-danger-subtle">
-                                            <div class="card-body text-center">
-                                                <h6 class="card-subtitle mb-2 text-muted">Visit Again</h6>
-                                                <h2 class="card-title mb-0"><field name="visit_again_count"/></h2>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </t>
-                    </templates>
-                </kanban>
-            </field>
-        </record>
-
-        <!-- Action modification to show kanban view first -->
+      <!-- Action modification to show kanban view first -->
         <record id="action_property_info" model="ir.actions.act_window">
             <field name="name">Property Information</field>
             <field name="res_model">smkc.property.info</field>
-            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_mode">list,form,kanban</field>
+            <field name="search_view_id" ref="view_property_info_search"/>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Create your first property!
                 </p>
             </field>
         </record>
-
     </data>
 </odoo>

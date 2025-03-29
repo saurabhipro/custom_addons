@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <record id="view_property_dashboard_form" model="ir.ui.view">
+            <field name="name">smkc.property.dashboard.form</field>
+            <field name="model">smkc.property.dashboard</field>
+            <field name="arch" type="xml">
+                <form string="Property Dashboard">
+                    <sheet>
+                        <form>
+                            <div class="container o_kanban_card_content">
+                                <div class="row mt16 mb16">
+                                    <!-- Zone Count -->
+                                    <div class="col-6 col-lg-3 mb-3">
+                                        <div class="card h-100 bg-light-subtle">
+                                            <div class="card-body text-center">
+                                                <h6 class="card-subtitle mb-2 text-muted">Zone</h6>
+                                                <h2 class="card-title mb-0"><field name="zone_count"/></h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Block Count -->
+                                    <div class="col-6 col-lg-3 mb-3">
+                                        <div class="card h-100 bg-warning-subtle">
+                                            <div class="card-body text-center">
+                                                <h6 class="card-subtitle mb-2 text-muted">Block</h6>
+                                                <h2 class="card-title mb-0"><field name="block_count"/></h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Uploaded Count -->
+                                    <div class="col-6 col-lg-3 mb-3">
+                                        <div class="card h-100 bg-info-subtle">
+                                            <div class="card-body text-center">
+                                                <h6 class="card-subtitle mb-2 text-muted">Uploaded</h6>
+                                                <h2 class="card-title mb-0"><field name="uploaded_count"/></h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- PDF Downloaded Count -->
+                                    <div class="col-6 col-lg-3 mb-3">
+                                        <div class="card h-100 bg-primary-subtle">
+                                            <div class="card-body text-center">
+                                                <h6 class="card-subtitle mb-2 text-muted">PDF Downloaded</h6>
+                                                <h2 class="card-title mb-0"><field name="pdf_downloaded_count"/></h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Plate Installed Count -->
+                                    <div class="col-6 col-lg-3 mb-3">
+                                        <div class="card h-100 bg-success-subtle">
+                                            <div class="card-body text-center">
+                                                <h6 class="card-subtitle mb-2 text-muted">Plate Installed</h6>
+                                                <h2 class="card-title mb-0"><field name="plate_installed_count"/></h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Surveyed Count -->
+                                    <div class="col-6 col-lg-3 mb-3">
+                                        <div class="card h-100 bg-secondary-subtle">
+                                            <div class="card-body text-center">
+                                                <h6 class="card-subtitle mb-2 text-muted">Surveyed</h6>
+                                                <h2 class="card-title mb-0"><field name="surveyed_count"/></h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Unlocked Count -->
+                                    <div class="col-6 col-lg-3 mb-3">
+                                        <div class="card h-100 bg-warning-subtle">
+                                            <div class="card-body text-center">
+                                                <h6 class="card-subtitle mb-2 text-muted">Unlocked</h6>
+                                                <h2 class="card-title mb-0"><field name="unlocked_count"/></h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Visit Again Count -->
+                                    <div class="col-6 col-lg-3 mb-3">
+                                        <div class="card h-100 bg-danger-subtle">
+                                            <div class="card-body text-center">
+                                                <h6 class="card-subtitle mb-2 text-muted">Visit Again</h6>
+                                                <h2 class="card-title mb-0"><field name="visit_again_count"/></h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        </form>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_property_dashboard" model="ir.actions.act_window">
+            <field name="name">Property dashboard</field>
+            <field name="res_model">smkc.property.dashboard</field>
+            <field name="view_mode">form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first property!
+                </p>
+            </field>
+        </record>
+
+        
+    </data>
+</odoo>

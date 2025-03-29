@@ -1,6 +1,7 @@
 <odoo>
     <data>
         <menuitem id="smkc_parent_menu_property_info" name="Property Information">
+            <menuitem id="smkc_menu_property_dashboard" name="dashboard" action="action_property_dashboard"/>
 
             <menuitem id="smkc_menu_property_info" name="Property Information" action="action_property_info"/>
             <menuitem id="smkc_menu_configuration" name="Configuration">                
@@ -8,7 +9,6 @@
                 <menuitem id="smkc_menu_ward" name="Wards" action="action_ward"/>
                 <menuitem id="smkc_menu_property_type" name="Property Types" action="action_property_type"/>
             </menuitem>
-
         </menuitem>
     </data>
 </odoo>

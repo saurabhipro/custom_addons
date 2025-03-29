@@ -2,17 +2,42 @@
 <odoo>
     <data>
     
-        <!-- <record id="report_purchase_order_qweb" model="ir.actions.report">
-            <field name="name">Purchase Order Report</field>
-            <field name="model">purchase.order</field>
+        <record id="report_property_detail_qweb" model="ir.actions.report">
+            <field name="name">DDN report</field>
+            <field name="model">smkc.ward</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">in2it_purchase_order.purchase_order_template</field>
-            <field name="report_file">in2it_purchase_order.purchase_order_template</field>
-            <field name="print_report_name">'%s_%s' % ((object.name or 'Purchase Order').replace('/',''), (object.opportunity_id.site_id.gpn_id or '').replace('/',''))</field>
-            <field name="binding_model_id" ref="in2it_purchase_order.model_purchase_order"/>
+            <field name="report_name">smkc.ddn_template</field>
+            <field name="report_file">smkc.ddn_template</field>
+            <field name="print_report_name">'%s' % (object.name or 'Plate')</field>
+            <field name="binding_model_id" ref="smkc.model_smkc_ward"/>
             <field name="binding_type">action</field>
-            <field name="paperformat_id" ref="in2it_purchase_order.purchase_order_pdf_report_format"/>
-        </record> -->
+            <field name="paperformat_id" ref="smkc.psmkc_ddn_pdf_report_format"/>
+        </record>
+
+        <template id="ddn_template">
+        <t t-call="web.html_container">
+           <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+
+                        <div style="background-color:red;width:100%;height:100%">
+                            <div style="width:100%;height:100%">
+                            kjsdfhaksdhf
+                            </div>
+                        </div>
+                        <div class="oe_structure"/>
+                        <!-- ddn_sangli_odoo_addons/smkc/static/src/img/WhatsApp Image 2025-03-27 at 12.10.13 AM. -->
+                        
+
+                         <div class="backgroundimage" style="position:absolute;opacity:0.25;font-size:3em;width:100%;height:100%;z-index:1000;">
+        <img src="static/src/img/WhatsApp Image 2025-03-27 at 12.10.13 AM."/>
+        <!-- <p t-field="o.client_order_ref"/> -->
+ </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
 
 
     </data>
