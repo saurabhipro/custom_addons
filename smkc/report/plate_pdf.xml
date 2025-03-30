@@ -18,22 +18,15 @@
         <t t-call="web.html_container">
            <t t-foreach="docs" t-as="o">
                 <t t-call="web.external_layout">
-                    <div class="page">
-
-                        <div style="background-color:red;width:100%;height:100%">
-                            <div style="width:100%;height:100%">
-                            kjsdfhaksdhf
+                    <t t-foreach="o.action_pdf_data()" t-as="p">
+                        <div t-attf-style="background-image:url('/smkc/static/src/img/WhatsApp Image 2025-03-27 at 12.10.13 AM.jpeg'); width:1280px; height:960px;">
+                            <div class="row" style="padding-top:45%;width:50%;margin-left:36%;">
+                                <div class="col"><t t-esc="p.new_zone_no.name"/></div>
+                                <div class="col"><t t-esc="p.new_ward_no.name"/></div>
+                                <div class="col"><t t-esc="p.upic_no"/></div>
                             </div>
                         </div>
-                        <div class="oe_structure"/>
-                        <!-- ddn_sangli_odoo_addons/smkc/static/src/img/WhatsApp Image 2025-03-27 at 12.10.13 AM. -->
-                        
-
-                         <div class="backgroundimage" style="position:absolute;opacity:0.25;font-size:3em;width:100%;height:100%;z-index:1000;">
-        <img src="static/src/img/WhatsApp Image 2025-03-27 at 12.10.13 AM."/>
-        <!-- <p t-field="o.client_order_ref"/> -->
- </div>
-                    </div>
+                    </t>
                 </t>
             </t>
         </t>

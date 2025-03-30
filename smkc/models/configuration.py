@@ -46,8 +46,19 @@ class Ward(models.Model):
     #             if (ward.name).strip().lower() == (record.name).strip().lower():
     #                 raise ValidationError(f"A ward with the zone '{record.zone.name}' already exists.")
 
+    # def action_print_property_plate_template(self):
+    #     return self.env.ref('smkc.report_property_detail_qweb').report_action(self)
+
+    def action_pdf_data(self):
+        print("function is working fine")
+        models = self.env['smkc.property.info'].search([('new_ward_no','=',self.id)])
+        print("mdels - ", models)
+        return models
+
     def action_print_property_plate_template(self):
+        
         return self.env.ref('smkc.report_property_detail_qweb').report_action(self)
+    
 
 class PropertyType(models.Model):
     _name = 'smkc.property.type'
