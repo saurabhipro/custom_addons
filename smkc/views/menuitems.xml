@@ -1,8 +1,8 @@
 <odoo>
     <data>
         <menuitem id="smkc_parent_menu_property_info" name="Property Information">
-            <menuitem id="smkc_menu_property_dashboard" name="dashboard" action="action_property_dashboard"/>
-
+            <menuitem id="smkc_menu_property_dashboard" name="dashboard" action="my_dashboard_action"/>
+            
             <menuitem id="smkc_menu_property_info" name="Property Information" action="action_property_info"/>
             <menuitem id="smkc_menu_configuration" name="Configuration">                
                 <menuitem id="smkc_menu_zone" name="Zones" action="action_zone"/>

@@ -196,7 +196,8 @@ class PropertyInfo(models.Model):
             rec.qr_code = base64.b64encode(temp.getvalue())
 
     # @api.depends('property_status')
-    # def _compute_dashboard_stats(self):
+    def _compute_dashboard_stats(self):
+        return 'Ksjdhfk'
     #     for record in self:
     #         # Get zone count
     #         zones = self.env['smkc.zone'].search_count([])
@@ -214,3 +215,25 @@ class PropertyInfo(models.Model):
     #         record.surveyed_count = properties.search_count([('property_status', '=', 'surveyed')])
     #         record.unlocked_count = properties.search_count([('property_status', '=', 'unlocked')])
     #         record.visit_again_count = properties.search_count([('property_status', '=', 'discovered')])
+
+
+
+    # def get_dashboard_data(self):
+    #     return [
+    #         {"name": "Item 1", "value": 100},
+    #         {"name": "Item 2", "value": 200},
+    #         {"name": "Item 3", "value": 300},
+    #     ]
+    
+    @api.model
+    def get_dashboard_data(self):
+        print("\n get_dashboard_data - ", self)
+        uploaded = self.env['smkc.property.info'].search_count([('property_status','=','uploaded')])
+        print("uploaded - ", uploaded)
+        pdf_downloaded = self.search_count([('property_status','=','pdf_downloaded')])
+        
+        return [{
+            'uploaded': uploaded,
+            'pdf_downloaded': pdf_downloaded,
+            # other fields
+        }]

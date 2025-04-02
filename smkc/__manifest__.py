@@ -21,7 +21,16 @@
         'views/property_type_views.xml',
         'views/menuitems.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'smkc/static/src/components/**/*.js', 
+            'smkc/static/src/components/**/*.xml',
+            # 'smkc/static/src/js/dashboard.js', 
 
+            # 'smkc/static/src/xml/dashboard.xml',
+
+        ],
+    },
 
     'installable': True,
     'application': True,
