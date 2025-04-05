@@ -6,7 +6,9 @@
     'author': 'Your Name',
     'depends': ['base'],
     'data': [
+
         'security/ir.model.access.csv',
+        'data/ir_module_category_data.xml',
         'security/res_groups.xml',
         'views/mobile_otp_views.xml',
         'views/res_users_views.xml',

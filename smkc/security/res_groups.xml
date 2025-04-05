@@ -1,22 +1,22 @@
 <odoo>
 
-    <record id="app_admin_group_ddn" model="res.groups">
+    <!-- <record id="app_admin_group_ddn" model="res.groups">
         <field name="name">App Admin</field>
         <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
-        <field name="category_id" ref="jwt_mobile_auth.module_category_smkc"/>
+        <field name="category_id" ref="smkc.module_category_smkc"/>
     </record>
 
     <record id="surveyor_group_ddn" model="res.groups">
         <field name="name">Surveyor</field>
         <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
-        <field name="category_id" ref="jwt_mobile_auth.module_category_smkc"/>
+        <field name="category_id" ref="smkc.module_category_smkc"/>
     </record>
 
     <record id="citizen_group_ddn" model="res.groups">
         <field name="name">Citizen</field>
         <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
-        <field name="category_id" ref="jwt_mobile_auth.module_category_smkc"/>
-    </record>
+        <field name="category_id" ref="smkc.module_category_smkc"/>
+    </record> -->
 
 
 </odoo>

@@ -11,7 +11,9 @@
     'version': '0.1',
     'depends': ['base','mail'],
     'data': [
+        'data/ir_module_category_data.xml',
         'data/report_paperformat_data.xml',
+        'security/res_groups.xml',
         'report/plate_pdf.xml',
         'security/ir.model.access.csv',
         'views/property_details_views.xml',

@@ -14,6 +14,7 @@ class JWTAuthController(http.Controller):
             return Response(json.dumps({'error': 'Mobile number is missing'}), status=400, content_type='application/json' )
 
         user = request.env['res.users'].sudo().search([('mobile', '=', mobile)], limit=1)
+        
         if not user:           
             # user_vals = {
             #     'name': f"demo{user.id+1}",
@@ -26,6 +27,9 @@ class JWTAuthController(http.Controller):
             # }
             return Response(json.dumps({'error': 'Surveyor Not Register'}), status=400, content_type='application/json')
         
+        check_surveyor = user.has_group('jwt_mobile_auth.surveyor_group_ddn')
+        if not check_surveyor:
+            return Response(json.dumps({'error': 'Access restricted: You must be assigned to the Surveyor group to proceed.'}), status=400, content_type='application/json')
 
         existing_otp = request.env['mobile.otp'].sudo().search([('mobile', '=', mobile)])
         if existing_otp:
