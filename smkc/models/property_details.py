@@ -168,63 +168,6 @@ class PropertyInfo(models.Model):
     is_gotha = fields.Char('Is Gotha')
     oc_number = fields.Char('OC Number')
 
-    # # Dashboard Statistics
-    # zone_count = fields.Integer(compute='_compute_dashboard_stats', store=False)
-    # block_count = fields.Integer(compute='_compute_dashboard_stats', store=False)
-    # uploaded_count = fields.Integer(compute='_compute_dashboard_stats', store=False)
-    # pdf_downloaded_count = fields.Integer(compute='_compute_dashboard_stats', store=False)
-    # plate_installed_count = fields.Integer(compute='_compute_dashboard_stats', store=False)
-    # surveyed_count = fields.Integer(compute='_compute_dashboard_stats', store=False)
-    # unlocked_count = fields.Integer(compute='_compute_dashboard_stats', store=False)
-    # visit_again_count = fields.Integer(compute='_compute_dashboard_stats', store=False)
-
-    qr_code = fields.Binary("QR Code", compute="_compute_qr_code", store=False)
-
-    @api.depends('new_zone_no', 'new_ward_no', 'new_property_no')
-    def _compute_qr_code(self):
-        """Generate a QR code based on property details."""
-        if not qrcode:
-            return  # If qrcode library is missing, skip
-        for rec in self:
-            data_to_encode = f"{rec.new_zone_no}-{rec.new_ward_no}-{rec.new_property_no}"
-            qr = qrcode.QRCode(version=1, box_size=4, border=2)
-            qr.add_data(data_to_encode)
-            qr.make(fit=True)
-            img = qr.make_image(fill_color="black", back_color="white")
-            temp = BytesIO()
-            img.save(temp, format="PNG")
-            rec.qr_code = base64.b64encode(temp.getvalue())
-
-    # @api.depends('property_status')
-    def _compute_dashboard_stats(self):
-        return 'Ksjdhfk'
-    #     for record in self:
-    #         # Get zone count
-    #         zones = self.env['smkc.zone'].search_count([])
-    #         record.zone_count = zones
-
-    #         # Get block count (assuming blocks are stored in a separate model)
-    #         blocks = self.env['smkc.ward'].search_count([])  # Using ward as block for now
-    #         record.block_count = blocks
-
-    #         # Get counts for different statuses
-    #         properties = self.env['smkc.property.info']
-    #         record.uploaded_count = properties.search_count([('property_status', '=', 'uploaded')])
-    #         record.pdf_downloaded_count = properties.search_count([('property_status', '=', 'pdf_downloaded')])
-    #         record.plate_installed_count = properties.search_count([('property_status', '=', 'plate_installed')])
-    #         record.surveyed_count = properties.search_count([('property_status', '=', 'surveyed')])
-    #         record.unlocked_count = properties.search_count([('property_status', '=', 'unlocked')])
-    #         record.visit_again_count = properties.search_count([('property_status', '=', 'discovered')])
-
-
-
-    # def get_dashboard_data(self):
-    #     return [
-    #         {"name": "Item 1", "value": 100},
-    #         {"name": "Item 2", "value": 200},
-    #         {"name": "Item 3", "value": 300},
-    #     ]
-    
     @api.model
     def get_dashboard_data(self):
         print("\n get_dashboard_data - ", self)

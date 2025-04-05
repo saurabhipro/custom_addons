@@ -106,7 +106,6 @@
                         <field name="property_status" widget="statusbar"  options="{'clickable': '1'}"/>
                     </header>
                     <sheet>
-                        <field name="qr_code" widget='image' class="oe_avatar"/>
                         <group>
                             <group>
                                 <field name="owner_id"/>

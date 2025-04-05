@@ -18,9 +18,6 @@
             <field name="arch" type="xml">
                 <form string="Ward">
                     <sheet>
-                        <header>
-                            <button type="object" name="action_print_property_plate_template" string="Generate Plate" class="oe_heighlight"/>
-                        </header>
                         <group>
                             <field name="name"/>
                             <field name="zone" options="{'no_create_edit':True,'no_create':True}"/>
@@ -35,6 +32,20 @@
             <field name="res_model">smkc.ward</field>
             <field name="view_mode">list,form</field>
             <field name="view_id" ref="view_ward_list"/>
+        </record>
+
+
+        <record id="model_smkc_ward_action_server" model="ir.actions.server">
+            <field name="name">Pdf Report</field>
+            <field name="model_id" ref="smkc.model_smkc_ward"/>
+            <field name="binding_model_id" ref="smkc.model_smkc_ward"/>
+            <field name="binding_view_types">form</field>
+            <field name="state">code</field>
+            <field name="code">action = {
+                'type':'ir.actions.act_url',
+                'url': 'download/ward_properties_pdf?ward_id=%s' % (record.id),
+                'target':'new',
+            }</field>
         </record>
 
 
