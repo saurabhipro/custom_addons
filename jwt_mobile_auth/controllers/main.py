@@ -21,7 +21,7 @@ from functools import wraps
 def check_permission(func):
     @wraps(func)
     def wrapper(self, *args, **kwargs):
-        print("khfksdhf - ")
+        print("check authentication - ")
         token = request.httprequest.headers.get('Authorization')
         print("Function - Checking token", token)
 

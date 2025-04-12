@@ -32,7 +32,25 @@ class Ward(models.Model):
 
     name = fields.Char(string="Ward Name", required=True)
     zone = fields.Many2one('smkc.zone', string="Zone", required=True)
+    pdf_url = fields.Char(strig="Pdf Url")
 
+    def update_ward(self):
+        """ This function will update the pdf_url field and return a dynamic URL. """
+        config_parameter = self.env['ir.config_parameter'].sudo()
+        base_url = config_parameter.get_param('web.base.url', default=False)
+
+        new_pdf_url = f"{base_url}/download/ward_properties_pdf?ward_id={(self.id)}" 
+        self.write({'pdf_url': new_pdf_url})
+        property = self.env['smkc.property.info'].search([('new_ward_no','=',self.id)])
+        property.write({'property_status' : 'pdf_downloaded'})
+
+        return {
+                'type': 'ir.actions.act_url',
+                'url': '/download/ward_properties_pdf?ward_id=%s' % (self.id),
+                'target': 'new',
+            }
+    
+    
     # @api.constrains('name', 'zone')
     # def _check_unique_ward_name_in_zone(self):
     #     for record in self:

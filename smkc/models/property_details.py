@@ -15,6 +15,7 @@ class PropertyInfo(models.Model):
 
     # Owner Information
     property_status = fields.Selection([
+        ('new', 'New'),
         ('uploaded','Uploaded'),
         ('pdf_downloaded','PDF Downloaded'),
         ('plate_installed', 'Plate Installed'),
@@ -31,6 +32,12 @@ class PropertyInfo(models.Model):
     ]
 
     survey_line_ids = fields.One2many('smkc.property.survey', 'property_id', string="Survey Line")
+
+    address_line_1 = fields.Char(string="Address 1")
+    address_line_2 = fields.Char(string="Address 2")
+    colony_name = fields.Char(string="Colony Name")
+    house_number = fields.Char(string="H.No")
+    surveyer_id = fields.Many2one(string="Surveyor")
     
     # Zone and Ward Information
     zone = fields.Char('Zone')

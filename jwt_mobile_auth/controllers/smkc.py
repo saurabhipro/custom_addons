@@ -4,7 +4,8 @@ from .main import *
 
 class Smkc(http.Controller):
 
-    @http.route(['/api/zone', '/api/zone/<int:zone_id>'], type='http', auth='none', methods=['GET', 'POST', 'PUT', 'DELETE'], csrf=False)
+    @http.route(['/api/zone', '/api/zone/<int:zone_id>'], type='http', auth='public', methods=['GET', 'POST', 'PUT', 'DELETE'], csrf=False)
+    @check_permission
     def get_zones(self, zone_id=None, **kwargs):
         try:
             data = json.loads(request.httprequest.data or "{}")
@@ -62,7 +63,8 @@ class Smkc(http.Controller):
         
 
 
-    @http.route(['/api/ward', '/api/ward/<int:ward_id>'], type='http', auth='none', methods=['GET', 'POST', 'PUT', 'DELETE'], csrf=False)
+    @http.route(['/api/ward', '/api/ward/<int:ward_id>'], type='http', auth='public', methods=['GET', 'POST', 'PUT', 'DELETE'], csrf=False)
+    @check_permission
     def get_wards(self, ward_id=None, **kwargs):
         print("self -- , ", self)
         try:

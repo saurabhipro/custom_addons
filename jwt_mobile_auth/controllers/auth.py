@@ -122,5 +122,65 @@ class JWTAuthController(http.Controller):
         except jwt.InvalidTokenError:
             raise AccessError('Invalid JWT token')
         
-        
-    
+
+
+    @http.route('/api/user_profile/<int:id>', type='http', auth='public', methods=['GET', 'POST'], csrf=False)
+    def user_profile(self, id, **kwargs):
+        try:
+            user = request.env['res.users'].sudo().search([('id', '=', id)], limit=1)
+
+            if not user:
+                return Response(
+                    json.dumps({'status': 'error', 'message': f'User with id {id} not found.'}),
+                    status=404,
+                    content_type='application/json'
+                )
+
+            if request.httprequest.method == 'GET':
+                user_data = {
+                    'id': user.id,
+                    'name': user.name,
+                    'email': user.email,
+                    'mobile': user.mobile,
+                    'image_1920': str(user.image_1920)  # base64
+                }
+                return Response(
+                    json.dumps({'status': 'success', 'message': 'User profile fetched successfully', 'data': user_data}),
+                    status=200,
+                    content_type='application/json'
+                )
+
+            elif request.httprequest.method == 'POST':
+                data = json.loads(request.httprequest.data or "{}")
+                vals = {}
+
+                if 'name' in data:
+                    vals['name'] = data['name']
+                if 'mobile' in data:
+                    vals['mobile'] = data['mobile']
+                if 'email' in data:
+                    vals['email'] = data['email']
+                if 'image_1920' in data:
+                    vals['image_1920'] = data['image_1920']
+
+                if not vals:
+                    return Response(
+                        json.dumps({'status': 'error', 'message': 'No valid fields to update.'}),
+                        status=400,
+                        content_type='application/json'
+                    )
+
+                user.sudo().write(vals)
+
+                return Response(
+                    json.dumps({'status': 'success', 'message': 'User profile updated successfully', 'updated_fields': list(vals.keys())}),
+                    status=200,
+                    content_type='application/json'
+                )
+
+        except Exception as e:
+            return Response(
+                json.dumps({'status': 'error', 'message': 'An error occurred', 'details': str(e)}),
+                status=500,
+                content_type='application/json'
+            )

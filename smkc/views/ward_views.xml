@@ -21,6 +21,7 @@
                         <group>
                             <field name="name"/>
                             <field name="zone" options="{'no_create_edit':True,'no_create':True}"/>
+                            <field name="pdf_url" widget="url"/>
                         </group>
                     </sheet>
                 </form>
@@ -41,11 +42,11 @@
             <field name="binding_model_id" ref="smkc.model_smkc_ward"/>
             <field name="binding_view_types">form</field>
             <field name="state">code</field>
-            <field name="code">action = {
-                'type':'ir.actions.act_url',
-                'url': 'download/ward_properties_pdf?ward_id=%s' % (record.id),
-                'target':'new',
-            }</field>
+            <field name="code">action = records.update_ward()
+            
+            
+            
+            </field>
         </record>
 
 

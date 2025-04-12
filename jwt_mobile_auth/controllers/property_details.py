@@ -13,20 +13,23 @@ class PropertyDetailsAPI(http.Controller):
         try:
             data = json.loads(request.httprequest.data or "{}")
 
-            upic_no = data.get('upic_no', '')
-            mobile = data.get('mobile', '')
-            owner = data.get('owner', '')
+            name = data.get('name')
             page = int(data.get('page', 1))
             limit = int(data.get('limit', 50))
 
             domain = []
+            print("name.isdigit() - ", name.isdigit())
+            if name:
+                if 'smkc' in name.lower() and not name.isdigit():
+                    print("\nc1\n", name)
+                    domain.append(('upic_no', '=', name))
+                elif name.isdigit():
+                    print("\nc2\n")
+                    domain.append(('mobile_no', '=', name))
+                else:
+                    print("\nc3\n")
+                    domain.append(('marathi_owner_name', 'like', name))
 
-            if upic_no:
-                domain.append(('upic_no', '=', upic_no))
-            if mobile:
-                domain.append(('mobile_no', '=', mobile))
-            if owner:
-                domain.append(('marathi_owner_name', 'like', owner))
 
             if domain:
                 property_details = request.env['smkc.property.info'].sudo().search(domain, limit=limit, offset=(page - 1) * limit)
@@ -40,8 +43,8 @@ class PropertyDetailsAPI(http.Controller):
                     "owner_id": property.owner_id,
                     "upic_no": property.upic_no,
                     "zone": property.zone,
-                    "new_zone_no": property.new_zone_no,
-                    "new_ward_no": property.new_ward_no,
+                    "new_zone_no": property.new_zone_no.name,
+                    "new_ward_no": property.new_ward_no.name,
                     "latitude": property.latitude,
                     "longitude": property.longitude,
                     "mobile_no": property.mobile_no,
@@ -67,12 +70,13 @@ class PropertyDetailsAPI(http.Controller):
                                         "latitude": survey.latitude, 
                                         "surveyer_id": survey.surveyer_id.id,
                                         "installer_id": survey.installer_id.id,
-                                        "property_image": survey.property_image,
-                                        "property_image1": survey.property_image1, 
+                                        "property_image": str(survey.property_image),
+                                        "property_image1": str(survey.property_image1), 
                                     } for survey in property.survey_line_ids if property.survey_line_ids]
                 })
 
             # Return the paginated response
+            print("property DAta - ", property_data)
             return Response(json.dumps({
                 'property_details': property_data,
                 'page': page,
@@ -162,3 +166,98 @@ class PropertyDetailsAPI(http.Controller):
         except Exception as e:
             _logger.error(f"Error occurred: {str(e)}")
             return Response(json.dumps({'error': str(e)}), status=500, content_type='application/json')
+
+    @http.route('/api/create_property', type='http', auth='public', methods=['POST'], csrf=False)
+    @check_permission
+    def create_property_details(self, **kwargs):
+        try:
+            data = json.loads(request.httprequest.data or "{}")
+
+            # Extract data safely
+            vals = {
+                'address_line_1': data.get('address_line_1'),
+                'address_line_2': data.get('address_line_2'),
+                'mobile_no': data.get('mobile'),
+                'colony_name': data.get('colony_name'),
+                'house_number': data.get('house_number'),
+                'marathi_owner_name': data.get('owner_name'),
+                'longitude': data.get('longitude'),
+                'latitude': data.get('latitude'),
+                'surveyer_id': data.get('surveyer_id'),
+                'new_zone_no': data.get('zone_id'),
+                'new_ward_no': data.get('ward_id'),
+                'property_status': 'new'
+            }
+
+            # Create property record
+            property_record = request.env['smkc.property.info'].sudo().create(vals)
+
+            response_data = {
+                'status': 'success',
+                'message': 'Property created successfully',
+                'property_id': property_record.id  # optional: return ID of created record
+            }
+            return Response(
+                json.dumps(response_data),
+                status=200,
+                content_type='application/json'
+            )
+
+        except jwt.ExpiredSignatureError:
+            _logger.error("JWT token has expired")
+            return Response(
+                json.dumps({'status': 'error', 'message': 'JWT token has expired'}),
+                status=401,
+                content_type='application/json'
+            )
+
+        except jwt.InvalidTokenError:
+            _logger.error("Invalid JWT token")
+            return Response(
+                json.dumps({'status': 'error', 'message': 'Invalid JWT token'}),
+                status=401,
+                content_type='application/json'
+            )
+
+        except Exception as e:
+            _logger.error(f"Error occurred: {str(e)}")
+            return Response(
+                json.dumps({'status': 'error', 'message': 'An error occurred', 'details': str(e)}),
+                status=500,
+                content_type='application/json'
+            )
+        
+
+    @http.route('/api/dashboard', type='http', auth='public', methods=['GET'], csrf=False)
+    def dashboard_summary(self, **kwargs):
+        try:
+            Property = request.env['smkc.property.info'].sudo()
+
+            data = {
+                'new': Property.search_count([('property_status', '=', 'new')]),
+                'uploaded': Property.search_count([('property_status', '=', 'uploaded')]),
+                'pdf_downloaded': Property.search_count([('property_status', '=', 'pdf_downloaded')]),
+                'plate_installed': Property.search_count([('property_status', '=', 'plate_installed')]),
+                'surveyed': Property.search_count([('property_status', '=', 'surveyed')]),
+                'unlocked': Property.search_count([('property_status', '=', 'unlocked')]),
+                'discovered': Property.search_count([('property_status', '=', 'discovered')]),
+            }
+
+            response = {
+                'status': 'success',
+                'message': 'Dashboard data fetched successfully',
+                'data': data
+            }
+
+            return Response(
+                json.dumps(response),
+                status=200,
+                content_type='application/json'
+            )
+
+        except Exception as e:
+            return Response(
+                json.dumps({'status': 'error', 'message': 'An error occurred', 'details': str(e)}),
+                status=500,
+                content_type='application/json'
+            )
