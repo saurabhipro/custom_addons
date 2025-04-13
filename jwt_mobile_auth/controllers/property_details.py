@@ -18,16 +18,12 @@ class PropertyDetailsAPI(http.Controller):
             limit = int(data.get('limit', 50))
 
             domain = []
-            print("name.isdigit() - ", name.isdigit())
             if name:
                 if 'smkc' in name.lower() and not name.isdigit():
-                    print("\nc1\n", name)
                     domain.append(('upic_no', '=', name))
                 elif name.isdigit():
-                    print("\nc2\n")
                     domain.append(('mobile_no', '=', name))
                 else:
-                    print("\nc3\n")
                     domain.append(('marathi_owner_name', 'like', name))
 
 
@@ -76,7 +72,6 @@ class PropertyDetailsAPI(http.Controller):
                 })
 
             # Return the paginated response
-            print("property DAta - ", property_data)
             return Response(json.dumps({
                 'property_details': property_data,
                 'page': page,
@@ -229,6 +224,7 @@ class PropertyDetailsAPI(http.Controller):
         
 
     @http.route('/api/dashboard', type='http', auth='public', methods=['GET'], csrf=False)
+    @check_permission
     def dashboard_summary(self, **kwargs):
         try:
             Property = request.env['smkc.property.info'].sudo()

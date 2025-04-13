@@ -177,13 +177,10 @@ class PropertyInfo(models.Model):
 
     @api.model
     def get_dashboard_data(self):
-        print("\n get_dashboard_data - ", self)
         uploaded = self.env['smkc.property.info'].search_count([('property_status','=','uploaded')])
-        print("uploaded - ", uploaded)
         pdf_downloaded = self.search_count([('property_status','=','pdf_downloaded')])
         
         return [{
             'uploaded': uploaded,
             'pdf_downloaded': pdf_downloaded,
-            # other fields
         }]

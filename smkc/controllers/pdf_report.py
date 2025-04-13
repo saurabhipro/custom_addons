@@ -14,7 +14,6 @@ class PdfGeneratorController(http.Controller):
     @http.route('/download/ward_properties_pdf', type='http', auth='user', methods=['GET', 'POST'], csrf=True)
     def download_ward_properties_pdf(self, **kw):
         ward_id = kw.get('ward_id')
-        print("ward - ", ward_id)
         if not ward_id:
             return request.not_found("Ward ID is required.")
         

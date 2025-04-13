@@ -27,8 +27,6 @@ class PropertyInfo(models.Model):
             zones = self.env['smkc.zone'].search_count([])
             record.zone_count = zones
 
-            print("zones - ", zones)
-
             # Get block count (assuming blocks are stored in a separate model)
             blocks = self.env['smkc.ward'].search_count([])  # Using ward as block for now
             record.block_count = blocks

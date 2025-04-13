@@ -12,7 +12,6 @@ import random
 _logger = logging.getLogger(__name__)
 
 import jwt
-print(jwt.__file__)
 
 from odoo.exceptions import AccessError, UserError
 from functools import wraps
@@ -21,9 +20,7 @@ from functools import wraps
 def check_permission(func):
     @wraps(func)
     def wrapper(self, *args, **kwargs):
-        print("check authentication - ")
         token = request.httprequest.headers.get('Authorization')
-        print("Function - Checking token", token)
 
         if not token:
             raise AccessError('Authorization header is missing or invalid')
@@ -34,9 +31,7 @@ def check_permission(func):
                 token = token[7:]
 
             decoded_token = jwt.decode(token, options={"verify_signature": False})
-            print("Decoded token - ", decoded_token)
             user_id = decoded_token['user_id']
-            print("User ID - ", user_id)
 
             # Check if the user exists
             user = request.env['res.users'].sudo().search([('id', '=', user_id)])
