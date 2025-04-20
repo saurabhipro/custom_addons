@@ -2,100 +2,69 @@
     <t t-name="smkc.OwlCrmTemplate" owl="1">
         <div class="vh-100 overflow-auto bg-muted">
             <div class="row m-3">
-                <div class="col-lg-7">
+                <div class="col">
                     <div class="row">
                         <div class="col m-0 p-0">
                             <div class="shadow-sm border m-2 p-4 bg-white">
                                 <div class="d flex align-items-center justify-content-between">
                                     <h1 class="text-primary fw-bold">
-                                        Property Dashboard
-
+                                        Property Dashboard - <t t-esc="this.state.property_info['total_count']"></t>
                                     </h1>
-                                    <!-- <div>
-                                        <select class="form-select">
-                                            <option value="0">Select Period</option>
-                                            <option value="7">Last 7 days</option>
-                                            <option value="30">last 30 days</option>
-                                            <option value="90">last 90 days</option>
-                                            <option value="365">last 365 days</option>
-
-                                        </select>
-                                    </div> -->
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
-                        <KpiCard name="'Uploaded'" value="this.state.property_info['uploaded']" percentage="6"/>
-                        <KpiCard name="'Pdf Dowmloaded'" value="this.state.property_info['pdf_downloaded']" percentage="7"/>
-                        <KpiCard name="'Plate Installed'" value="-10" percentage="8"/>
-                        <KpiCard name="'Surveyed'" value="30" percentage="16"/>
-                        <KpiCard name="'Unlocked'" value="30" percentage="16"/>
-                        <KpiCard name="'Discovered'" value="30" percentage="16"/>
+                        <!-- <KpiCard name="'Total'" value="this.state.property_info['total_count']"/> -->
+                        <KpiCard name="'Uploaded'" value="this.state.property_info['total_new']" bgClass="bg-black"/>
+                        <KpiCard name="'Pdf Dowmloaded'" value="this.state.property_info['total_uploaded']"/>
+                        <KpiCard name="'Plate Installed'" value="this.state.property_info['total_pdf_downloaded']"/>
+                        <KpiCard name="'Surveyed'" value="this.state.property_info['total_plate_installed']"/>
+                        <KpiCard name="'Unlocked'" value="this.state.property_info['total_surveyed']"/>
+                        <KpiCard name="'Discovered'" value="this.state.property_info['total_unlocked']"/>
                     </div>
-                    <!-- <div class="row">
-                        <div class="col m-0 p-0">
-                            <div class="shadow-sm border m-2 p-4 bg-white">
-                                <div class="d flex align-items-center justify-content-between">
-                                    <h3 class="text-primary fw-bold">Top products</h3>
-                                    <div class="px-3 px-1 bg-primary cursor-pointer">
-                                        <span class="fa fa-arrow-right text-white"></span>
-                                    </div>
-                                </div>
-                                <ChartRenderer type="'doughnut'" title="'Top Products Report'"/>
-
-                            </div>
-                        </div>
-                         <div class="col m-0 p-0">
-                            <div class="shadow-sm border m-2 p-4 bg-white">
-                                <div class="d flex align-items-center justify-content-between">
-                                    <h3 class="text-primary fw-bold">Top Sale People</h3>
-                                    <div class="px-3 px-1 bg-primary cursor-pointer">
-                                        <span class="fa fa-arrow-right text-white"></span>
-                                    </div>
-                                </div>
-                                <ChartRenderer type="'pie'" title="'Top Sale Report'"/>
-                            </div>
-                        </div>
-                    </div> -->
+                    
                 </div>
-                <!-- <div class="col-lg-5">
-                    <div class="row">
-                        <div class="col m-0 p-0">
-                            <div class="shadow-sm border m-2 p-4 bg-white">
-                                <div class="d flex align-items-center justify-content-between">
-                                    <h3 class="text-primary fw-bold">Monthly Sale</h3>
-                                    <div class="px-3 px-1 bg-primary cursor-pointer">
-                                        <span class="fa fa-arrow-right text-white"></span>
-                                    </div>
-                                </div>
-                                <ChartRenderer type="'bar'" title="'Monthly Sale Report'"/>
+              
+            </div>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col m-0 p-0">
-                            <div class="shadow-sm border m-2 p-4 bg-white">
-                                <div class="d flex align-items-center justify-content-between">
-                                    <h3 class="text-primary fw-bold">Partner Order Dashboard</h3>
-                                    <div class="px-3 px-1 bg-primary cursor-pointer">
-                                        <span class="fa fa-arrow-right text-white"></span>
-                                    </div>
-                                </div>
-                                <ChartRenderer type="'line'" title="'Partner Order Report'"/>
+            <div class="row m-3">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Ward</th>
+                            <th scope="col">Total Count</th>
+                            <th scope="col">New</th>
+                            <th scope="col">Uploaded</th>
+                            <th scope="col">Pdf Dowmloaded</th>
+                            <th scope="col">Plate Installed</th>
+                            <th scope="col">Surveyed</th>
+                            <th scope="col">Unlocked</th>
+                            <th scope="col">Discovered</th>
 
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="Object.entries(this.state.property_info['result'])" t-as="item" t-key="item[0]">
+                            <tr>
+                                <td><t t-esc="item[0]"/></td> <!-- Ward name -->
+                                <td><t t-esc="item[1].count"/></td>
+                                <td><t t-esc="item[1].new"/></td>
+                                <td><t t-esc="item[1].uploaded"/></td>
+                                <td><t t-esc="item[1].pdf_downloaded"/></td>
+                                <td><t t-esc="item[1].surveyed"/></td>
+                                <td><t t-esc="item[1].plate_installed"/></td>
+                                <td><t t-esc="item[1].unlocked"/></td>
+                                <td><t t-esc="item[1].discovered"/></td>
+                            </tr>
+                        </t>
+                        </tbody>
+                </table>
             </div>
         </div>
-        <div>
-            <p>Computed Value:</p>
-        </div>
+        
     </t>
 </templates>
 

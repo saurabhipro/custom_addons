@@ -6,6 +6,9 @@ try:
 except ImportError:
     qrcode = None  # If not installed, you'll need to pip install qrcode[pil]
 
+import itertools
+
+
 class PropertyInfo(models.Model):
     _name = 'smkc.property.info'
     _description = 'Property Information'
@@ -175,12 +178,82 @@ class PropertyInfo(models.Model):
     is_gotha = fields.Char('Is Gotha')
     oc_number = fields.Char('OC Number')
 
+    # @api.model
+    # def get_dashboard_data(self):
+        
+        
+    #     uploaded = self.env['smkc.property.info'].search_count([('property_status','=','uploaded')])
+    #     pdf_downloaded = self.search_count([('property_status','=','pdf_downloaded')])
+        
+    #     return [{
+    #         'uploaded': uploaded,
+    #         'pdf_downloaded': pdf_downloaded,
+    #     }]
+    
     @api.model
     def get_dashboard_data(self):
-        uploaded = self.env['smkc.property.info'].search_count([('property_status','=','uploaded')])
-        pdf_downloaded = self.search_count([('property_status','=','pdf_downloaded')])
+        PropertyInfo = self.env['smkc.property.info'].search([])
+        sorted_records = sorted(PropertyInfo, key=lambda rec: rec.new_ward_no.name)
+        grouped_records = itertools.groupby(sorted_records, key=lambda rec: rec.new_ward_no.name)
+        print(grouped_records, "sorted - records")
+        result = {}
+    
+        for group_key , grp in grouped_records:
+            count = 0
+            new = 0
+            uploaded = 0
+            pdf_downloaded = 0
+            plate_installed = 0
+            surveyed = 0
+            unlocked = 0
+            discovered = 0
+
+            for rec in grp:
+                count += 1
+                if rec.property_status == 'new':
+                    new += 1
+                if rec.property_status == 'uploaded':
+                    uploaded += 1
+                if rec.property_status == 'pdf_downloaded':
+                    pdf_downloaded += 1
+                if rec.property_status == 'plate_installed':
+                    plate_installed += 1
+                if rec.property_status == 'surveyed':
+                    surveyed += 1
+                if rec.property_status == 'unlocked':
+                    unlocked += 1
+                if rec.property_status == 'discovered':
+                    discovered += 1
+            
+            
+            result[group_key] = {
+                
+                'count' : count,
+                'new' : new,
+                'uploaded' : uploaded,
+                'pdf_downloaded' : pdf_downloaded,
+                'plate_installed' : plate_installed,
+                'surveyed' : surveyed,
+                'unlocked' : unlocked,
+                'discovered' : discovered,
+
+            }
         
-        return [{
-            'uploaded': uploaded,
-            'pdf_downloaded': pdf_downloaded,
+
+        result = [{
+            'total_count' : self.env['smkc.property.info'].search_count([]),
+            'total_new' : self.env['smkc.property.info'].search_count([('property_status','=','new')]), 
+            'total_uploaded' : self.env['smkc.property.info'].search_count([('property_status','=','uploaded')]),
+            'total_pdf_downloaded' : self.search_count([('property_status','=','pdf_downloaded')]),
+            'total_plate_installed' : self.search_count([('property_status','=','plate_installed')]),
+            'total_surveyed' : self.search_count([('property_status','=','surveyed')]),
+            'total_unlocked' : self.search_count([('property_status','=','unlocked')]),
+            'total_discovered' : self.search_count([('property_status','=','discovered')]),
+            'result' : result,
         }]
+
+        print("result - ", result)
+        return result
+        
+
+        # uploaded = self.env['smkc.property.info'].search([()])
