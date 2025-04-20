@@ -193,9 +193,8 @@ class PropertyInfo(models.Model):
     @api.model
     def get_dashboard_data(self):
         PropertyInfo = self.env['smkc.property.info'].search([])
-        sorted_records = sorted(PropertyInfo, key=lambda rec: rec.new_ward_no.name)
-        grouped_records = itertools.groupby(sorted_records, key=lambda rec: rec.new_ward_no.name)
-        print(grouped_records, "sorted - records")
+        sorted_records = sorted(PropertyInfo, key=lambda rec: rec.new_ward_no.name if rec.new_ward_no else '')
+        grouped_records = itertools.groupby(sorted_records, key=lambda rec: rec.new_ward_no.name if rec.new_ward_no else '') 
         result = {}
     
         for group_key , grp in grouped_records:
