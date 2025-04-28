@@ -4,7 +4,7 @@ import logging
 from odoo import models, fields, api, _
 import random
 from odoo.exceptions import UserError
-from odoo.tools import email_re
+# from odoo.tools import email_re
 _logger = logging.getLogger(__name__)
 
 
@@ -54,6 +54,7 @@ class HelpdeskTicket(models.Model):
         "If unchecked, it will allow you to hide the product without removing it."
     )
     ticket_from_website = fields.Boolean('Ticket From Website')
+    is_one = fields.Boolean(strin="sdkfkdhf")
     ticket_from_portal = fields.Boolean('Ticket From Portal')
     cancel_reason = fields.Char("Cancel Reason", tracking=True, translate=True)
     tag_ids = fields.Many2many('helpdesk.tags', string="Tags")
@@ -393,23 +394,39 @@ class HelpdeskTicket(models.Model):
                             vals.update({
                                 'stage_id': self.env.user.company_id.sh_staff_replied_stage_id.id
                             })
-
+    
     def check_access(self, vals):
         user_groups = self.env.user.groups_id.ids
-        if vals.get('stage_id'):
-            stage_id = self.env['helpdesk.stages'].sudo().search([('id', '=', vals.get('stage_id'))], limit=1)
-            if stage_id and stage_id.sh_group_ids:
-                is_group_exist = False
-                list_user_groups = user_groups
-                list_stage_groups = stage_id.sh_group_ids.ids
-                
-                for item in list_stage_groups:
-                    if item in list_user_groups:
-                        is_group_exist = True
-                        break
-                if not is_group_exist:
-                    raise UserError(_('You do not have access to edit this support request.'))
-                    # raise UserError(_('You do not have access to edit this support request.'))
+        try:
+            if vals.get('stage_id'):
+                stage_id = self.env['helpdesk.stages'].sudo().search([('id', '=', vals.get('stage_id'))], limit=1)
+                if stage_id and stage_id.sh_group_ids:
+                    is_group_exist = False
+                    list_user_groups = user_groups
+                    list_stage_groups = stage_id.sh_group_ids.ids
+                    
+                    for item in list_stage_groups:
+                        if item in list_user_groups:
+                            is_group_exist = True
+                            break
+                    if not is_group_exist:
+                        raise UserError(_('You do not have access to edit this support request.'))
+                        # raise UserError(_('You do not have access to edit this support request.'))
+        except:
+            for rec in self:
+                if rec.stage_id:
+                    stage_id = self.env['helpdesk.stages'].sudo().search([('id', '=', rec.stage_id.id)], limit=1)
+                    if stage_id and stage_id.sh_group_ids:
+                        is_group_exist = False
+                        list_user_groups = user_groups
+                        list_stage_groups = stage_id.sh_group_ids.ids
+                        
+                        for item in list_stage_groups:
+                            if item in list_user_groups:
+                                is_group_exist = True
+                                break
+                        if not is_group_exist:
+                            raise UserError(_('You do not have access to edit this support request.'))
 
     def send_mail_on_partner_change(self, vals):
         if vals.get('partner_id') and self.env.company.new_stage_id.mail_template_ids:

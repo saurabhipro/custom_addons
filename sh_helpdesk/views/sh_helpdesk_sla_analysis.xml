@@ -27,7 +27,7 @@
         <field name="name">sh.helpdesk.sla.analysis.tree.view</field>
         <field name="model">sh.helpdesk.sla.analysis</field>
         <field name="arch" type="xml">
-            <tree string="SLA Status Analysis">
+            <list string="SLA Status Analysis">
                 <field name="sh_sla_status_id"/>
                 <field name="sh_sla_status_deadline"/>
                 <field name="sh_reached_duration"/>
@@ -36,7 +36,7 @@
                 <field name="sh_helpdesk_ticket_id"/>
                 <field name="sh_late_duration"/>
                 <field name="sh_ticket_stage_id"/>
-            </tree>
+            </list>
         </field>
     </record>
 

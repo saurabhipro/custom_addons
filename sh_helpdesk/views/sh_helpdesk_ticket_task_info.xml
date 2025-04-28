@@ -11,7 +11,7 @@
                 <xpath expr="//notebook" position="inside">
                     <page name="helpdesk_stage_history_line" string="Stage Change History">
                         <field name="helpdesk_stage_history_line">
-                            <tree create="0">
+                            <list create="0">
                                 <field name="stage_name" />
                                 <field name="date_in" />
                                 <field name="date_in_by" />
@@ -20,7 +20,7 @@
                                 <field name="day_diff" />
                                 <field name="time_diff" widget="float_time" />
                                 <field name="total_time_diff" widget="float_time" />
-                            </tree>
+                            </list>
                         </field>
                     </page>
                 </xpath>
@@ -33,7 +33,7 @@
         <field name="name">Stage Change Analysis</field>
         <field name="model">sh.helpdesk.ticket.stage.info</field>
         <field name="arch" type="xml">
-            <tree create="0">
+            <list create="0">
                     <field name="stage_task_id"/>
                     <field name="stage_name" />
                     <field name="date_in" />
@@ -43,7 +43,7 @@
                     <field name="day_diff" />
                     <field name="time_diff" widget="float_time" />
                     <field name="total_time_diff" widget="float_time" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -81,7 +81,7 @@
         <field name="name">Stage Change Analysis</field>
         <field name="res_model">sh.helpdesk.ticket.stage.info</field>
         <field name="context">{'search_default_stage_task': 1,'search_default_stage_name': 1}</field>
-        <field name="view_mode">tree,pivot</field>
+        <field name="view_mode">list,pivot</field>
     </record>
 
     <!-- stage change analysis -->

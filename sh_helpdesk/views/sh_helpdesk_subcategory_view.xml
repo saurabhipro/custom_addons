@@ -25,18 +25,18 @@
         <field name="name">helpdesk.subcategory.view.tree</field>
         <field name="model">helpdesk.subcategory</field>
         <field name="arch" type="xml">
-            <tree string="Helpdesk SubCategory">
+            <list string="Helpdesk SubCategory">
                 <field name="sequence" widget="handle" />
                 <field name="parent_category_id" />
                 <field name="name" />
-            </tree>
+            </list>
         </field>
     </record>
 
     <record id="helpdesk_subcategory_action" model="ir.actions.act_window">
         <field name="name">Helpdesk Sub Categories</field>
         <field name="res_model">helpdesk.subcategory</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">Create new sub category</p>
         </field>

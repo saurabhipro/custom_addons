@@ -28,10 +28,10 @@
                 </div>
               
             </div>
-
+            
             <div class="row m-3">
                 <table class="table">
-                    <thead>
+                    <thead class="thead-dark">
                         <tr>
                             <th scope="col">Ward</th>
                             <th scope="col">Total Count</th>

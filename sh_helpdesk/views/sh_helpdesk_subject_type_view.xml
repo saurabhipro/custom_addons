@@ -19,15 +19,15 @@
         <field name="name">helpdesk.subject.type.tree.view</field>
         <field name="model">helpdesk.sub.type</field>
         <field name="arch" type="xml">
-            <tree string="Subject Type">
+            <list string="Subject Type">
                 <field name="name" />
-            </tree>
+            </list>
         </field>
     </record>
     <record id="helpdesk_subject_type_action" model="ir.actions.act_window">
         <field name="name">Helpdesk Subject Type</field>
         <field name="res_model">helpdesk.sub.type</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">Create a New Subject Type</p>
         </field>
