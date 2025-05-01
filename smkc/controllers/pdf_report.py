@@ -65,7 +65,10 @@ class PdfGeneratorController(http.Controller):
                     box_size=2,  # Adjust as needed
                     border=2
                 )
-                qr.add_data(upic_no)
+                # qr.add_data(upic_no)
+                base_url = request.httprequest.host_url
+                full_url = f"{base_url}/get/property-details/{upic_no}"
+                qr.add_data(full_url)
                 qr.make(fit=True)
                 qr_img = qr.make_image(fill_color="black", back_color="white")
                 
@@ -100,3 +103,14 @@ class PdfGeneratorController(http.Controller):
             ('Content-Disposition', 'attachment; filename="ward_properties.pdf"')
         ]
         return request.make_response(final_pdf_io.read(), headers=headers)
+    
+
+
+    @http.route('/get/property-details/<string:upic_no>', auth='public', website=True)
+    def get_property_details_by_upic_no(self, upic_no, **kw) :
+        print("upic_no - ", upic_no)
+        property = request.env['smkc.property.info'].sudo().search([('upic_no','=',upic_no)])
+        if property:
+            return http.request.render('smkc.property_details_template')
+        return http.request.render('http_routing.404')
+        

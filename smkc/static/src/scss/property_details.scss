@@ -1,0 +1,23 @@
+.property-main-section{
+    background-color: #443f6e;
+
+    .container-div{
+        background-color: #eaf3fa;
+    }
+    .property-btn{
+        color: #fff;
+        background-image: linear-gradient(135deg, #3643a8, #ab3667);
+    }
+    .div-img{
+        text-align: right;
+        img{
+            width: 25%;
+        }
+    }
+    .div-h1{
+        font-weight: 700;
+        font-family: sans-serif;
+        line-height: 5rem;
+        font-size: 2rem;
+    }
+}

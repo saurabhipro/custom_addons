@@ -1,5 +1,5 @@
 <templates xml:space="preserve">
-    <t t-name="smkc.OwlCrmTemplate" owl="1">
+    <t t-name="smkc.OwlPropertyOnGoogleMapTemplate" owl="1">
         <div class="vh-100 overflow-auto bg-muted">
             <div class="row m-3">
                 <div class="col">
@@ -16,7 +16,6 @@
                     </div>
 
                     <div class="row">
-                        <!-- <KpiCard name="'Total'" value="this.state.property_info['total_count']"/> -->
                         <KpiCard name="'Uploaded'" value="this.state.property_info['total_new']" bgClass="bg-black"/>
                         <KpiCard name="'Pdf Dowmloaded'" value="this.state.property_info['total_uploaded']"/>
                         <KpiCard name="'Plate Installed'" value="this.state.property_info['total_pdf_downloaded']"/>
@@ -52,7 +51,7 @@
                     <tbody>
                         <t t-foreach="Object.entries(this.state.property_info['result'])" t-as="item" t-key="item[0]">
                             <tr>
-                                <td><t t-esc="item[0]"/></td> <!-- Ward name -->
+                                <td><t t-esc="item[0]"/></td> 
                                 <td><t t-esc="item[1].count"/></td>
                                 <td><t t-esc="item[1].new"/></td>
                                 <td><t t-esc="item[1].uploaded"/></td>
@@ -78,16 +77,3 @@
 
 
 
-<!-- <template id="DashboardTemplate">
-    <div class="o_dashboard">
-        <h3>Custom Dashboard</h3>
-        <div class="o_dashboard_items">
-            <t t-foreach="state.dashboardData" t-as="item">
-                <div class="o_dashboard_item">
-                    <strong><t t-esc="item.name"/></strong>
-                    <p><t t-esc="item.value"/></p>
-                </div>
-            </t>
-        </div>
-    </div>
-</template> -->

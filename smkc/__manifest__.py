@@ -19,12 +19,18 @@
         'views/zone_views.xml',
         'views/ward_views.xml',
         'views/property_type_views.xml',
+        'views/property_map_view.xml',
+        'views/property_details_template.xml',
         'views/menuitems.xml',
     ],
     'assets': {
         'web.assets_backend': [
             'smkc/static/src/components/**/*.js', 
             'smkc/static/src/components/**/*.xml',
+            # 'smkc/static/src/components/property_on_map.js'
+        ],
+        'web.assets_frontend': [
+            'smkc/static/src/scss/property_details.scss'
         ],
     },
 

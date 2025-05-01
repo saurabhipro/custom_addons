@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="property_map_template" owl="1">
+        <div class="o_content">
+            <div class="oe_structure" id="property_map_container">
+                <h2>Property Map</h2>
+                <form id="property_map_filter_form">
+                    <input type="text" id="zone_filter" placeholder="Zone"/>
+                    <input type="text" id="ward_filter" placeholder="Ward"/>
+                    <select id="status_filter">
+                        <option value="">All Statuses</option>
+                        <option value="new">New</option>
+                        <option value="uploaded">Uploaded</option>
+                        <option value="pdf_downloaded">PDF Downloaded</option>
+                        <option value="plate_installed">Plate Installed</option>
+                        <option value="surveyed">Surveyed</option>
+                        <option value="unlocked">Unlocked</option>
+                        <option value="discovered">Discovered</option>
+                    </select>
+                    <button type="button" id="filter_btn">Filter</button>
+                </form>
+                <!-- <div id="property_map" style="height: 600px; width: 100%; margin-top: 20px;"></div> -->
+            <div t-ref="map" id="property_map" style="height: 600px; width: 100%;"></div>
+
+            </div>
+        </div>
+    </t>
+    <!-- <t t-name="property_map_template" owl="1">
+        <div class="o_content">
+            <div t-ref="map" id="property_map" style="height: 600px; width: 100%;"></div>
+        </div>
+    </t> -->
+
+
+</templates> 

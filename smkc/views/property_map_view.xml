@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_property_map" model="ir.actions.client">
+        <field name="name">Property Map</field>
+        <field name="tag">property_map_view</field>
+    </record>
+
+    <record id="action_property_map_sjdfkjad" model="ir.actions.client">
+        <field name="name">Property Map</field>
+        <field name="tag">property_map_view_dkfjad</field>
+    </record>
+
+    <!-- <menuitem id="menu_property_map" name="Property Map" parent="smkc_menu_property_info" action="action_property_map" sequence="100"/> -->
+</odoo> 

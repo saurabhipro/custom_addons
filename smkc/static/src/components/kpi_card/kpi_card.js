@@ -10,4 +10,4 @@ import { Component } from "@odoo/owl";
 
 export class KpiCard extends Component {}
 
-KpiCard.template = 'smkc.KpiCardTemplate';  // Ensure this matches the template name in kpi_card.xml
+KpiCard.template = 'smkc.KpiCardTemplate';

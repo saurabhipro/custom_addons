@@ -99,6 +99,7 @@
 
 import { registry } from "@web/core/registry";
 import { KpiCard } from "./kpi_card/kpi_card";
+import { PropertyMapView } from "./google_map/property_map";
 import { ChartRenderer } from "./chart_renderer/chart_renderer";  // Import the ChartRenderer
 import { loadJS } from "@web/core/assets";
 import { Component, onWillStart, onMounted, useRef, useState } from "@odoo/owl";
@@ -106,7 +107,7 @@ import { useService } from "@web/core/utils/hooks";
 
 
 export class OwlCrmDashboard extends Component {
-    static components = { KpiCard, ChartRenderer };  // Register ChartRenderer
+    static components = { KpiCard, ChartRenderer, PropertyMapView};  // Register ChartRenderer
 
     setup() {
         // You can set up any other logic for this dashboard component here if necessary
