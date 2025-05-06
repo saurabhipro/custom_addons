@@ -7,7 +7,7 @@
             <field name="arch" type="xml">
                 <list string="Wards">
                     <field name="name"/>
-                    <field name="zone"/>
+                    <field name="zone_id"/>
                 </list>
             </field>
         </record>
@@ -20,7 +20,7 @@
                     <sheet>
                         <group>
                             <field name="name"/>
-                            <field name="zone" options="{'no_create_edit':True,'no_create':True}"/>
+                            <field name="zone_id" options="{'no_create_edit':True,'no_create':True}"/>
                             <field name="pdf_url" widget="url"/>
                         </group>
                     </sheet>

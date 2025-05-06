@@ -10,5 +10,13 @@
         <field name="tag">property_map_view_dkfjad</field>
     </record>
 
+    <!--
+    <record id="action_kml_manage" model="ir.actions.act_window">
+        <field name="name">KML Management</field>
+        <field name="res_model">smkc.kml</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
     <!-- <menuitem id="menu_property_map" name="Property Map" parent="smkc_menu_property_info" action="action_property_map" sequence="100"/> -->
 </odoo> 

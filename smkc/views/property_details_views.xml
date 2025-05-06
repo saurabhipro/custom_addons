@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
 
@@ -7,9 +8,8 @@
             <field name="model">smkc.property.info</field>
             <field name="arch" type="xml">
                 <list>
-                    <field name="owner_id" optional="show"/>
                     <field name="upic_no" optional="show"/>
-                    <field name="zone" optional="show"/>
+                    <field name="zone_id" optional="show"/>
                     <field name="new_zone_no" optional="show"/>
                     <field name="new_ward_no" optional="show"/>
                     <field name="new_property_no" optional="hide"/>
@@ -17,7 +17,6 @@
                     <field name="bill_no" optional="hide"/>
                     <field name="property_description" optional="show"/>
                     <field name="plot_area" optional="hide"/>
-                    <field name="mobile_no" optional="show"/>
                     <field name="old_rental_value" optional="hide"/>
                     <field name="old_property_tax" optional="hide"/>
                     <field name="old_total_tax" optional="hide"/>
@@ -108,16 +107,14 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="owner_id"/>
                                 <field name="upic_no"/>
-                                <field name="zone"/>
+                                <field name="zone_id"/>
                                 <field name="new_zone_no"/>
                                 <field name="new_ward_no"/>
                                 <field name="latitude"/>
                                 <field name="longitude"/>
                             </group>
                             <group>
-                                <field name="mobile_no"/>
                                 <field name="marathi_owner_name"/>
                                 <field name="marathi_occupier_name"/>
                                 <field name="marathi_owner_dukan_imarate_nav"/>
@@ -226,7 +223,6 @@
                                         <field name="old_ward_no"/>
                                         <field name="old_property_no"/>
                                         <field name="bill_no"/>
-                                        <field name="mobile_no"/>
                                         <field name="old_rental_value"/>
                                         <field name="old_rv"/>
                                         <field name="old_property_tax"/>
@@ -280,67 +276,34 @@
                                         <field name="water_connection_no"/>
                                         <field name="water_consumer_no"/>
                                         <field name="is_etp"/>
-
-                                        <field name="is_home_composting"/>
-                                        <field name="is_vermicompost"/>
-                                        <field name="is_echarging"/>
-                                        <field name="is_sewage_water"/>
-
-                                        <field name="is_const_permission"/>
-                                        <field name="const_completion_oc"/>
-                                        <field name="gunthewari_certificate"/>
-
-                                        <field name="is_bukhand"/>
-                                        <field name="is_construction"/>
-                                        <field name="total_no_of_people"/>
-                                        <field name="oc_number"/>
                                     </group>
                                 </group>
                             </page>
                         </notebook>
-
                     </sheet>
-                    <chatter/>
                 </form>
             </field>
         </record>
 
-        <!-- search -->
-    <record id="view_property_info_search" model="ir.ui.view">
-        <field name="name">smkc.property.info.search</field>
-        <field name="model">smkc.property.info</field>
-        <field name="arch" type="xml">
-            <search>
-                <field name="upic_no"/>
-                <!-- <field name="new_zone_no"/>
-                <field name="new_ward_no"/> -->
-
-                <separator/>
-                <filter name="upic_no" string="UPIC No" domain="[('upic_no', '!=', False)]"/>
-                <filter name="new_zone_no" string="Zone" domain="[('new_zone_no', '!=', False)]"/>
-                <filter name="new_ward_no" string="Ward" domain="[('new_ward_no', '!=', False)]"/>
-                <filter name="mobile" string="Mobile" domain="[('mobile_no', '!=', False)]"/>
-                
-                <group expand="1">
+        <!-- Search -->
+        <record id="view_property_info_search" model="ir.ui.view">
+            <field name="name">smkc.property.info.search</field>
+            <field name="model">smkc.property.info</field>
+            <field name="arch" type="xml">
+                <search string="Property Information">
+                    <field name="upic_no"/>
                     <field name="new_zone_no"/>
                     <field name="new_ward_no"/>
-                    <field name="mobile_no"/>
-                </group>
+                    <field name="property_status"/>
+                    <field name="marathi_owner_name"/>
+                    <field name="property_description"/>
+                    <field name="latitude"/>
+                    <field name="longitude"/>
+                </search>
+            </field>
+        </record>
 
-                <group expand="0" string="Group By">
-                    <filter name="group_new_zone_no" string="Zone" domain="[]" context="{'group_by': 'new_zone_no'}"/>
-                    <filter name="group_new_ward_no" string="Ward" domain="[]" context="{'group_by': 'new_ward_no'}"/>
-                    <filter name="group_mobile_no" string="Mobile" domain="[]" context="{'group_by': 'mobile_no'}"/>
-                </group>
-
-
-            </search>
-        </field>
-    </record>
-        
-
-
-      <!-- Action modification to show kanban view first -->
+        <!-- Action -->
         <record id="action_property_info" model="ir.actions.act_window">
             <field name="name">Property Information</field>
             <field name="res_model">smkc.property.info</field>

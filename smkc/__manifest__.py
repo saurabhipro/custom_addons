@@ -1,42 +1,51 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "smkc",
-    'summary': "Short (1 phrase/line) summary of the module's purpose",
-    'description': """
-        Long description of module's purpose
+    'name': 'SMKC',
+    'summary': """
+        Property Survey Management System for Suryabinayak Municipality
     """,
-    'author': "Anjli Odoo Developer",
-    'website': "",
-    'category': 'Uncategorized',
+    'description': """
+        Property Survey Management System for Suryabinayak Municipality
+    """,
+    'author': 'Windsurf',
+    'website': 'https://www.windsurf.io',
+    'category': 'Services/Property',
     'version': '0.1',
-    'depends': ['base','mail'],
+    'depends': ['base', 'mail', 'web'],
     'data': [
-        'data/ir_module_category_data.xml',
+        # Security
         'security/res_groups.xml',
         'security/ir.model.access.csv',
-        'views/property_details_views.xml',
-        'views/dashboard.xml',
+        
+        # Data
+        'data/ir_module_category_data.xml',
+        
+        # Views
         'views/zone_views.xml',
         'views/ward_views.xml',
         'views/property_type_views.xml',
-        'views/property_map_view.xml',
+        'views/property_details_views.xml',
         'views/property_details_template.xml',
-        'views/menuitems.xml',
+        'views/property_map_view.xml',
+        'views/dashboard.xml',
+        'views/menuitems.xml',  # Load menus last
+        # 'views/assets.xml',
     ],
     'assets': {
         'web.assets_backend': [
-            'smkc/static/src/components/**/*.js', 
-            'smkc/static/src/components/**/*.xml',
-            # 'smkc/static/src/components/property_on_map.js'
-        ],
-        'web.assets_frontend': [
-            'smkc/static/src/scss/property_details.scss'
+            # Components
+            'smkc/static/src/components/kpi_card/kpi_card.js',
+            'smkc/static/src/components/kpi_card/kpi_card.xml',
+            'smkc/static/src/components/google_map/property_map.js',
+            'smkc/static/src/components/google_map/property_map_template.xml',
+            'smkc/static/src/components/dashboard/dashboard.js',
+            'smkc/static/src/components/dashboard/dashboard.xml',
+            'smkc/static/src/components/dashboard/dashboard.scss',
+            'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
+            'https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=Function.prototype',
         ],
     },
-
     'installable': True,
     'application': True,
+    'auto_install': False,
 }
-
-
-

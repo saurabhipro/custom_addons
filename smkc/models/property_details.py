@@ -1,5 +1,7 @@
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 import base64
+import re
 from io import BytesIO
 try:
     import qrcode
@@ -8,13 +10,11 @@ except ImportError:
 
 import itertools
 
-
 class PropertyInfo(models.Model):
     _name = 'smkc.property.info'
     _description = 'Property Information'
     _inherit = ['mail.thread']
     _rec_name = "upic_no"
-
 
     # Owner Information
     property_status = fields.Selection([
@@ -29,6 +29,7 @@ class PropertyInfo(models.Model):
     
     owner_id = fields.Char('Owner ID')
     upic_no = fields.Char('UPIC NO')
+    zone_id = fields.Many2one('smkc.zone', string='Zone', tracking=True)
 
     _sql_constraints = [
         ('unique_upic_no', 'UNIQUE(upic_no)', 'The UPICNO must be unique.')
@@ -84,8 +85,25 @@ class PropertyInfo(models.Model):
     comb_prop_remark = fields.Text('Comb Prop Remark')
     
     # Location Information
-    latitude = fields.Char('Latitude')
-    longitude = fields.Char('Longitude')
+    latitude = fields.Char(
+        string='Latitude',
+        help='Format: DD° MM\' SS.SSS" N/S (e.g., 16° 51\' 50.003" N)'
+    )
+    longitude = fields.Char(
+        string='Longitude',
+        help='Format: DD° MM\' SS.SSS" E/W (e.g., 74° 37\' 20.926" E)'
+    )
+    
+    @api.constrains('latitude', 'longitude')
+    def _check_coordinates(self):
+        """Validate DMS coordinate format"""
+        for record in self:
+            if record.latitude:
+                if not re.match(r'^\d{1,2}°\s*\d{1,2}\'\s*\d{1,2}(\.\d+)?"\s*[NS]$', record.latitude):
+                    raise ValidationError('Invalid latitude format. Use format: DD° MM\' SS.SSS" N/S')
+            if record.longitude:
+                if not re.match(r'^\d{1,3}°\s*\d{1,2}\'\s*\d{1,2}(\.\d+)?"\s*[EW]$', record.longitude):
+                    raise ValidationError('Invalid longitude format. Use format: DD° MM\' SS.SSS" E/W')
     
     # Property Infrastructure Information
     road_width = fields.Char('Road Width')
@@ -135,7 +153,6 @@ class PropertyInfo(models.Model):
     build_completion_date = fields.Date('Build Completion Date')
 
     oid = fields.Date('Oid')
-
     
     # Fire, Water Meter, ETP, and Waste Information
     is_fire = fields.Char('Is Fire')
@@ -178,18 +195,58 @@ class PropertyInfo(models.Model):
     is_gotha = fields.Char('Is Gotha')
     oc_number = fields.Char('OC Number')
 
-    # @api.model
-    # def get_dashboard_data(self):
+    @api.model
+    def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
+        """Override search_read to return decimal coordinates."""
+        res = super().search_read(domain=domain, fields=fields, offset=offset, limit=limit, order=order)
         
-        
-    #     uploaded = self.env['smkc.property.info'].search_count([('property_status','=','uploaded')])
-    #     pdf_downloaded = self.search_count([('property_status','=','pdf_downloaded')])
-        
-    #     return [{
-    #         'uploaded': uploaded,
-    #         'pdf_downloaded': pdf_downloaded,
-    #     }]
-    
+        if res and ('latitude' in (fields or []) or 'longitude' in (fields or [])):
+            for record in res:
+                # Use decimal coordinates for the map
+                if 'latitude' in record:
+                    record['latitude'] = str(record.get('latitude', ''))
+                if 'longitude' in record:
+                    record['longitude'] = str(record.get('longitude', ''))
+                    
+        return res
+
+    @api.model
+    def create(self, vals):
+        """Override create to validate coordinates before saving."""
+        try:
+            if vals.get('latitude'):
+                lat = vals['latitude']
+                if not re.match(r'^\d{1,2}°\s*\d{1,2}\'\s*\d{1,2}(\.\d+)?"\s*[NS]$', lat):
+                    vals['latitude'] = None
+                    
+            if vals.get('longitude'):
+                lng = vals['longitude']
+                if not re.match(r'^\d{1,3}°\s*\d{1,2}\'\s*\d{1,2}(\.\d+)?"\s*[EW]$', lng):
+                    vals['longitude'] = None
+        except (ValueError, TypeError):
+            vals['latitude'] = None
+            vals['longitude'] = None
+            
+        return super().create(vals)
+
+    def write(self, vals):
+        """Override write to validate coordinates before saving."""
+        try:
+            if vals.get('latitude'):
+                lat = vals['latitude']
+                if not re.match(r'^\d{1,2}°\s*\d{1,2}\'\s*\d{1,2}(\.\d+)?"\s*[NS]$', lat):
+                    vals['latitude'] = None
+                    
+            if vals.get('longitude'):
+                lng = vals['longitude']
+                if not re.match(r'^\d{1,3}°\s*\d{1,2}\'\s*\d{1,2}(\.\d+)?"\s*[EW]$', lng):
+                    vals['longitude'] = None
+        except (ValueError, TypeError):
+            vals['latitude'] = None
+            vals['longitude'] = None
+            
+        return super().write(vals)
+
     @api.model
     def get_dashboard_data(self):
         PropertyInfo = self.env['smkc.property.info'].search([])
@@ -248,11 +305,11 @@ class PropertyInfo(models.Model):
             'total_surveyed' : self.search_count([('property_status','=','surveyed')]),
             'total_unlocked' : self.search_count([('property_status','=','unlocked')]),
             'total_discovered' : self.search_count([('property_status','=','discovered')]),
+            'total_zones': self.env['smkc.zone'].search_count([]),
+            'total_wards': self.env['smkc.ward'].search_count([]),
+            'total_users': self.env['res.users'].search_count([]),
             'result' : result,
         }]
 
         print("result - ", result)
         return result
-        
-
-        # uploaded = self.env['smkc.property.info'].search([()])

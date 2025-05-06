@@ -21,3 +21,29 @@
         font-size: 2rem;
     }
 }
+
+/* Custom badge colors for property_status in list view */
+.o_field_badge[data-value="uploaded"] {
+    background-color: #1976d2 !important;
+    color: #fff !important;
+}
+.o_field_badge[data-value="pdf_downloaded"] {
+    background-color: #e53935 !important;
+    color: #fff !important;
+}
+.o_field_badge[data-value="plate_installed"] {
+    background-color: #43a047 !important;
+    color: #fff !important;
+}
+.o_field_badge[data-value="surveyed"] {
+    background-color: #fbc02d !important;
+    color: #fff !important;
+}
+.o_field_badge[data-value="unlocked"] {
+    background-color: #6d4c41 !important;
+    color: #fff !important;
+}
+.o_field_badge[data-value="discovered"] {
+    background-color: #8e24aa !important;
+    color: #fff !important;
+}

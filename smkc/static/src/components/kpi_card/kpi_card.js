@@ -1,13 +1,14 @@
-// import { Component } from "@odoo/owl";
-
-// export class KpiCard extends Component {}
-
-// KpiCard.template = 'smkc.KpiCard'
-
-// registry.category("actions").add('smkc.crm_dashboard_tag', KpiCard)
+/** @odoo-module **/
 
 import { Component } from "@odoo/owl";
 
-export class KpiCard extends Component {}
+export class KpiCard extends Component {
+    static template = "smkc.KpiCardTemplate";
+    static props = {
+        name: { type: String },
+        value: { type: Number },
+        bgClass: { type: String, optional: true }
+    };
+}
 
-KpiCard.template = 'smkc.KpiCardTemplate';
+// No need to register this as an action since it's a child component
