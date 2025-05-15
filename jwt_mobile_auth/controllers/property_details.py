@@ -223,17 +223,19 @@ class PropertyDetailsAPI(http.Controller):
             )
         
 
-    @http.route('/api/dashboard', type='http', auth='public', methods=['GET'], csrf=False)
+    @http.route(['/api/dashboard', '/api/dashboard/<int:surveyor_id>'], type='http', auth='public', methods=['GET'], csrf=False)
     @check_permission
-    def dashboard_summary(self, **kwargs):
+    def dashboard_summary(self, surveyor_id, **kwargs):
         try:
+            # if surveyor_id:
+            #     property = request.env['smkc.property.info'].sudo().search([('sur')])
             Property = request.env['smkc.property.info'].sudo()
 
             data = {
                 'new': Property.search_count([('property_status', '=', 'new')]),
                 'uploaded': Property.search_count([('property_status', '=', 'uploaded')]),
                 'pdf_downloaded': Property.search_count([('property_status', '=', 'pdf_downloaded')]),
-                'plate_installed': Property.search_count([('property_status', '=', 'plate_installed')]),
+                # 'plate_installed': Property.search_count([('property_status', '=', 'plate_installed')]),
                 'surveyed': Property.search_count([('property_status', '=', 'surveyed')]),
                 'unlocked': Property.search_count([('property_status', '=', 'unlocked')]),
                 'discovered': Property.search_count([('property_status', '=', 'discovered')]),

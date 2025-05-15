@@ -120,6 +120,7 @@
                                 <field name="marathi_owner_dukan_imarate_nav"/>
                                 <field name="plot_area"/>
                                 <field name="marathi_renter_name"/>
+                                <field name="company_id"/>
                             </group>
                         </group>
                         <group>

@@ -30,7 +30,7 @@ class PropertyInfo(models.Model):
     owner_id = fields.Char('Owner ID')
     upic_no = fields.Char('UPIC NO')
     zone_id = fields.Many2one('smkc.zone', string='Zone', tracking=True)
-
+    company_id = fields.Many2one('res.company', string="Company")
     _sql_constraints = [
         ('unique_upic_no', 'UNIQUE(upic_no)', 'The UPICNO must be unique.')
     ]

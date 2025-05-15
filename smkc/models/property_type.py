@@ -6,4 +6,5 @@ class PropertyType(models.Model):
     _description = 'Property Type'
 
     name = fields.Char(string='Type', required=True, tracking=True)
-    active = fields.Boolean(string='Active', default=True, tracking=True) 
+    active = fields.Boolean(string='Active', default=True, tracking=True)
+    company_id = fields.Many2one('res.company', string="Company")

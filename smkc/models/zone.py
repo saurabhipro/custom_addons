@@ -7,3 +7,4 @@ class Zone(models.Model):
 
     name = fields.Char(string='Zone Name', required=True, tracking=True)
     active = fields.Boolean(string='Active', default=True, tracking=True) 
+    company_id = fields.Many2one('res.company', string="Company")

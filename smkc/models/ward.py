@@ -11,6 +11,8 @@ class Ward(models.Model):
     description = fields.Text(string='Description')
     active = fields.Boolean(string='Active', default=True, tracking=True)
     pdf_url = fields.Char(string='PDF URL', tracking=True)
+    company_id = fields.Many2one('res.company', string="Company")
+
 
     def update_ward(self):
         """ This function will update the pdf_url field and return a dynamic URL. """
