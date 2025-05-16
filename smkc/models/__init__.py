@@ -2,9 +2,15 @@
 
 from . import property_details
 from . import property_survey
-from . import dashboard
 from . import zone
 from . import ward
 from . import property_type
+# from . import re
+
+from . import token
+from . import otp
+from . import res_users
+
+
 # from . import kml
 

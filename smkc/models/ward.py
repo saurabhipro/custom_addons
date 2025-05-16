@@ -21,7 +21,7 @@ class Ward(models.Model):
 
         new_pdf_url = f"{base_url}/download/ward_properties_pdf?ward_id={(self.id)}" 
         self.write({'pdf_url': new_pdf_url})
-        property = self.env['smkc.property.info'].search([('new_ward_no','=',self.id)])
+        property = self.env['smkc.property.info'].search([('ward_no','=',self.id)])
         property.write({'property_status' : 'pdf_downloaded'})
 
         return {

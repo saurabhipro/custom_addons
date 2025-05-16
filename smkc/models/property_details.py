@@ -9,6 +9,11 @@ except ImportError:
     qrcode = None  # If not installed, you'll need to pip install qrcode[pil]
 
 import itertools
+import uuid
+import qrcode
+from io import BytesIO
+import base64
+from odoo.http import request
 
 class PropertyInfo(models.Model):
     _name = 'smkc.property.info'
@@ -17,43 +22,82 @@ class PropertyInfo(models.Model):
     _rec_name = "upic_no"
 
     # Owner Information
+    qr_code = fields.Binary("QR Code", compute="_compute_qr_code", store=True)
+
     property_status = fields.Selection([
-        ('new', 'New'),
+        # ('new', 'New'),
         ('uploaded','Uploaded'),
         ('pdf_downloaded','PDF Downloaded'),
-        ('plate_installed', 'Plate Installed'),
+        # ('plate_installed', 'Plate Installed'),
         ('surveyed', 'Surveyed'),
-        ('unlocked','Unlocked'),
+        # ('unlocked','Unlocked'),
         ('discovered', 'Discovered')
          ], string="Property Status", default="uploaded")
     
     owner_id = fields.Char('Owner ID')
     upic_no = fields.Char('UPIC NO')
-    zone_id = fields.Many2one('smkc.zone', string='Zone', tracking=True)
+    # zone_id = fields.Many2one('smkc.zone', string='Zone', tracking=True)
     company_id = fields.Many2one('res.company', string="Company")
     _sql_constraints = [
         ('unique_upic_no', 'UNIQUE(upic_no)', 'The UPICNO must be unique.')
     ]
 
+    uuid = fields.Char(string='UUID', readonly=True, copy=False, default=lambda self: str(uuid.uuid4()))
+
+    @api.depends('uuid')
+    def _compute_qr_code(self):
+        for record in self:
+            if record.uuid:
+                qr = qrcode.QRCode(
+                    version=1,
+                    error_correction=qrcode.constants.ERROR_CORRECT_L,
+                    box_size=10,
+                    border=4,
+                )
+                base_url = request.httprequest.host_url
+                full_url = f"{base_url}get/property-details/{record.uuid}"
+                qr.add_data(full_url)
+
+               
+                qr.make(fit=True)
+                img = qr.make_image(fill='black', back_color='white')
+
+                buffer = BytesIO()
+                img.save(buffer, format='PNG')
+                qr_image = base64.b64encode(buffer.getvalue())
+                buffer.close()
+
+                record.qr_code = qr_image
+            else:
+                record.qr_code = False
+
     survey_line_ids = fields.One2many('smkc.property.survey', 'property_id', string="Survey Line")
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if not vals.get('uuid'):
+                vals['uuid'] = str(uuid.uuid4())
+        return super(PropertyInfo, self).create(vals_list)
+    
     address_line_1 = fields.Char(string="Address 1")
     address_line_2 = fields.Char(string="Address 2")
     colony_name = fields.Char(string="Colony Name")
     house_number = fields.Char(string="H.No")
-    surveyer_id = fields.Many2one(string="Surveyor")
+    surveyer_id = fields.Many2one('res.users', string="Surveyor")
     
     # Zone and Ward Information
-    zone = fields.Char('Zone')
-    new_zone_no = fields.Many2one('smkc.zone', string='New Zone No')
-    new_ward_no = fields.Many2one('smkc.ward',string='New Ward No')
-    new_property_no = fields.Char('New Property No')
-    new_partition_no = fields.Char('New Partition No')
-    new_city_survey_no = fields.Char('New CityServey No')
-    new_plot_no = fields.Char('New Plot No')
+    # zone = fields.Char('Zone')
+    zone_no = fields.Many2one('smkc.zone', string='Zone No')
+    ward_no = fields.Many2one('smkc.ward',string='Ward No')
+    property_no = fields.Char('Property No')
+    partition_no = fields.Char('Partition No')
+    city_survey_no = fields.Char('CityServey No')
+    plot_no = fields.Char('Plot No')
     old_zone_no = fields.Char('Old Zone No')
     old_ward_no = fields.Char('Old Ward No')
     old_property_no = fields.Char('Old Property No')
+    unit_no = fields.Char('Unit No.')
     
     # Billing Information
     bill_no = fields.Char('Bill No')
@@ -70,16 +114,15 @@ class PropertyInfo(models.Model):
     old_total_tax = fields.Float('Old Total Tax')
     
     # New Property Information
-    new_toilet_no = fields.Char('New Toilet No')
+    toilet_no = fields.Char('New Toilet No')
     plot_taxable_area_sqft = fields.Char('Plot Taxable Area SqFt')
     
-    # Marathi Names
-    marathi_owner_name = fields.Char('Marathi Owner Name')
-    marathi_renter_name = fields.Char('Marathi Renter Name')
-    marathi_occupier_name = fields.Char('Marathi Occupier Name')
-    marathi_owner_patta = fields.Char('Marathi Owner Patta')
-    marathi_owner_dukan_imarate_nav = fields.Char('Marathi Owner Dukan Imarate Nav')
-    marathi_owner_dukan_flat_no = fields.Char('Marathi Owner Dukan Flat No')
+    owner_name = fields.Char('Owner Name')
+    renter_name = fields.Char('Renter Name')
+    occupier_name = fields.Char('Occupier Name')
+    owner_patta = fields.Char('Owner Patta')
+    owner_dukan_imarate_nav = fields.Char('Owner Dukan Imarate Nav')
+    owner_dukan_flat_no = fields.Char('Owner Dukan Flat No')
     
     # Remarks
     comb_prop_remark = fields.Text('Comb Prop Remark')
@@ -250,8 +293,8 @@ class PropertyInfo(models.Model):
     @api.model
     def get_dashboard_data(self):
         PropertyInfo = self.env['smkc.property.info'].search([])
-        sorted_records = sorted(PropertyInfo, key=lambda rec: rec.new_ward_no.name if rec.new_ward_no else '')
-        grouped_records = itertools.groupby(sorted_records, key=lambda rec: rec.new_ward_no.name if rec.new_ward_no else '') 
+        sorted_records = sorted(PropertyInfo, key=lambda rec: rec.ward_no.name if rec.ward_no else '')
+        grouped_records = itertools.groupby(sorted_records, key=lambda rec: rec.ward_no.name if rec.ward_no else '') 
         result = {}
     
         for group_key , grp in grouped_records:
@@ -259,7 +302,7 @@ class PropertyInfo(models.Model):
             new = 0
             uploaded = 0
             pdf_downloaded = 0
-            plate_installed = 0
+            # plate_installed = 0
             surveyed = 0
             unlocked = 0
             discovered = 0
@@ -272,8 +315,8 @@ class PropertyInfo(models.Model):
                     uploaded += 1
                 if rec.property_status == 'pdf_downloaded':
                     pdf_downloaded += 1
-                if rec.property_status == 'plate_installed':
-                    plate_installed += 1
+                # if rec.property_status == 'plate_installed':
+                #     plate_installed += 1
                 if rec.property_status == 'surveyed':
                     surveyed += 1
                 if rec.property_status == 'unlocked':
@@ -288,7 +331,7 @@ class PropertyInfo(models.Model):
                 'new' : new,
                 'uploaded' : uploaded,
                 'pdf_downloaded' : pdf_downloaded,
-                'plate_installed' : plate_installed,
+                # 'plate_installed' : plate_installed,
                 'surveyed' : surveyed,
                 'unlocked' : unlocked,
                 'discovered' : discovered,
@@ -301,7 +344,7 @@ class PropertyInfo(models.Model):
             'total_new' : self.env['smkc.property.info'].search_count([('property_status','=','new')]), 
             'total_uploaded' : self.env['smkc.property.info'].search_count([('property_status','=','uploaded')]),
             'total_pdf_downloaded' : self.search_count([('property_status','=','pdf_downloaded')]),
-            'total_plate_installed' : self.search_count([('property_status','=','plate_installed')]),
+            # 'total_plate_installed' : self.search_count([('property_status','=','plate_installed')]),
             'total_surveyed' : self.search_count([('property_status','=','surveyed')]),
             'total_unlocked' : self.search_count([('property_status','=','unlocked')]),
             'total_discovered' : self.search_count([('property_status','=','discovered')]),

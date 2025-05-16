@@ -21,7 +21,7 @@ class PdfGeneratorController(http.Controller):
             ward_id = int(ward_id)
         except ValueError:
             return request.not_found("Invalid Ward ID.")
-        domain = [('new_ward_no', '=', ward_id)]
+        domain = [('ward_no', '=', ward_id)]
         properties = request.env['smkc.property.info'].sudo().search(domain)
         if not properties:
             return request.not_found("No properties found for this ward.")
@@ -50,14 +50,14 @@ class PdfGeneratorController(http.Controller):
             for property_rec in batch_records:
                 c.drawImage(bg_image, 0, 0, width=page_width, height=page_height)
                 
-                zone = property_rec.new_zone_no.name or "Unknown Zone"
-                block = property_rec.new_ward_no.name or "Unknown Block"
-                upic_no = property_rec.upic_no or "No UPIC"
+                zone = property_rec.zone_no.name or "Unknown Zone"
+                block = property_rec.ward_no.name or "Unknown Block"
+                uuid = property_rec.uuid or "No UPIC"
                 
                 c.setFont("Helvetica-Bold", 16)
                 c.drawString(305, 228, zone)
                 c.drawString(445, 228, block)
-                c.drawString(550, 228, upic_no)
+                c.drawString(550, 228, uuid)
                 
                 qr = qrcode.QRCode(
                     version=1,
@@ -65,9 +65,9 @@ class PdfGeneratorController(http.Controller):
                     box_size=2,  # Adjust as needed
                     border=2
                 )
-                # qr.add_data(upic_no)
+                # qr.add_data(uuid)
                 base_url = request.httprequest.host_url
-                full_url = f"{base_url}get/property-details/{upic_no}"
+                full_url = f"{base_url}get/property-details/{uuid}"
                 qr.add_data(full_url)
                 qr.make(fit=True)
                 qr_img = qr.make_image(fill_color="black", back_color="white")
@@ -107,10 +107,11 @@ class PdfGeneratorController(http.Controller):
 
 
 
-    @http.route('/get/property-details/<string:upic_no>', auth='public', website=True)
-    def get_property_details_by_upic_no(self, upic_no, **kw):
-        print("UPIC No:", upic_no)
-        property = request.env['smkc.property.info'].sudo().search([('upic_no', '=', upic_no)], limit=1)
+    @http.route('/get/property-details/<string:uuid>', auth='public', website=True)
+    def get_property_details_by_uuid(self, uuid, **kw):
+        print("UPIC No:", uuid)
+        
+        property = request.env['smkc.property.info'].sudo().search([('uuid', '=', uuid)], limit=1)
         
         if property:
             return request.render('smkc.property_details_template', {'property': property})

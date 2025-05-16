@@ -8,25 +8,25 @@
             <field name="model">smkc.property.info</field>
             <field name="arch" type="xml">
                 <list>
+                    <field name="uuid" optional="show"/>
                     <field name="upic_no" optional="show"/>
-                    <field name="zone_id" optional="show"/>
-                    <field name="new_zone_no" optional="show"/>
-                    <field name="new_ward_no" optional="show"/>
-                    <field name="new_property_no" optional="hide"/>
-                    <field name="new_plot_no" optional="hide"/>
+                    <field name="zone_no" optional="show"/>
+                    <field name="ward_no" optional="show"/>
+                    <field name="property_no" optional="hide"/>
+                    <field name="plot_no" optional="hide"/>
                     <field name="bill_no" optional="hide"/>
                     <field name="property_description" optional="show"/>
                     <field name="plot_area" optional="hide"/>
                     <field name="old_rental_value" optional="hide"/>
                     <field name="old_property_tax" optional="hide"/>
                     <field name="old_total_tax" optional="hide"/>
-                    <field name="new_toilet_no" optional="hide"/>
+                    <field name="toilet_no" optional="hide"/>
                     <field name="plot_taxable_area_sqft" optional="hide"/>
 
-                    <field name="marathi_owner_name" optional="show"/>
-                    <field name="marathi_renter_name" optional="hide"/>
-                    <field name="marathi_occupier_name" optional="hide"/>
-                    <field name="marathi_owner_dukan_imarate_nav" optional="hide"/>
+                    <field name="owner_name" optional="show"/>
+                    <field name="renter_name" optional="hide"/>
+                    <field name="occupier_name" optional="hide"/>
+                    <field name="owner_dukan_imarate_nav" optional="hide"/>
 
                     <field name="latitude" optional="show"/>
                     <field name="longitude" optional="show"/>
@@ -105,21 +105,26 @@
                         <field name="property_status" widget="statusbar"  options="{'clickable': '1'}"/>
                     </header>
                     <sheet>
+                    <field name="qr_code" widget="image" class="oe_avatar img1" options="{'preview_image': 'qr_code'}" />
+
                         <group>
                             <group>
+                                <field name="uuid"/>
                                 <field name="upic_no"/>
-                                <field name="zone_id"/>
-                                <field name="new_zone_no"/>
-                                <field name="new_ward_no"/>
+                                <field name="surveyer_id"/>
+                                <field name="zone_no"/>
+                                <field name="ward_no"/>
                                 <field name="latitude"/>
                                 <field name="longitude"/>
                             </group>
                             <group>
-                                <field name="marathi_owner_name"/>
-                                <field name="marathi_occupier_name"/>
-                                <field name="marathi_owner_dukan_imarate_nav"/>
+                                <field name="owner_name"/>
+                                <field name="occupier_name"/>
+                                <field name="owner_dukan_imarate_nav"/>
                                 <field name="plot_area"/>
-                                <field name="marathi_renter_name"/>
+                                <field name="renter_name"/>
+                                <field name="colony_name"/>
+                                <field name="unit_no"/>
                                 <field name="company_id"/>
                             </group>
                         </group>
@@ -129,7 +134,7 @@
 
                         <notebook>
                             <page string="Property Survey">
-                                <field name="survey_line_ids" context="{'default_owner_name': marathi_owner_name, 'default_longitude':longitude, 'default_latitude':latitude}">
+                                <field name="survey_line_ids" context="{'default_owner_name': owner_name, 'default_longitude':longitude, 'default_latitude':latitude}">
                                     <form string="Survey Parameters">
                                         <sheet>
                                             <group>
@@ -216,10 +221,10 @@
                             <page string="Other Info">
                                 <group>
                                     <group>
-                                        <field name="new_property_no"/>
-                                        <field name="new_partition_no"/>
-                                        <field name="new_city_survey_no"/>
-                                        <field name="new_plot_no"/>
+                                        <field name="property_no"/>
+                                        <field name="partition_no"/>
+                                        <field name="city_survey_no"/>
+                                        <field name="plot_no"/>
                                         <field name="old_zone_no"/>
                                         <field name="old_ward_no"/>
                                         <field name="old_property_no"/>
@@ -228,10 +233,10 @@
                                         <field name="old_rv"/>
                                         <field name="old_property_tax"/>
                                         <field name="old_total_tax"/>
-                                        <field name="new_toilet_no"/>
+                                        <field name="toilet_no"/>
                                         <field name="plot_taxable_area_sqft"/>
-                                        <field name="marathi_owner_patta"/>
-                                        <field name="marathi_owner_dukan_flat_no"/>
+                                        <field name="owner_patta"/>
+                                        <field name="owner_dukan_flat_no"/>
                                         <field name="comb_prop_remark"/>
                                         <field name="road_width"/>
                                         <field name="no_of_trees"/>
@@ -293,10 +298,10 @@
             <field name="arch" type="xml">
                 <search string="Property Information">
                     <field name="upic_no"/>
-                    <field name="new_zone_no"/>
-                    <field name="new_ward_no"/>
+                    <field name="zone_no"/>
+                    <field name="ward_no"/>
                     <field name="property_status"/>
-                    <field name="marathi_owner_name"/>
+                    <field name="owner_name"/>
                     <field name="property_description"/>
                     <field name="latitude"/>
                     <field name="longitude"/>

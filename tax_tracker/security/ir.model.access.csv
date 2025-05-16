@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_tax_type_user,tax.type.user,model_tax_type,group_tax_tracker_user,1,0,0,0
-access_tax_type_manager,tax.type.manager,model_tax_type,group_tax_tracker_manager,1,1,1,1
-access_tax_transaction_user,tax.transaction.user,model_tax_transaction,group_tax_tracker_user,1,1,1,0
-access_tax_transaction_manager,tax.transaction.manager,model_tax_transaction,group_tax_tracker_manager,1,1,1,1

@@ -27,7 +27,7 @@ class PropertyMapController(http.Controller):
         if zone:
             domain.append(('zone', '=', zone))
         if ward:
-            domain.append(('new_ward_no', '=', ward))
+            domain.append(('ward_no', '=', ward))
         if status:
             domain.append(('property_status', '=', status))
         domain.append(('latitude', '!=', False))
@@ -42,7 +42,7 @@ class PropertyMapController(http.Controller):
                 'upic_no': prop.upic_no,
                 'address': f"{prop.address_line_1 or ''} {prop.address_line_2 or ''}",
                 'zone': prop.zone,
-                'ward': prop.new_ward_no.name if prop.new_ward_no else '',
+                'ward': prop.ward_no.name if prop.ward_no else '',
                 'status': prop.property_status,
                 'latitude': lat_decimal,
                 'longitude': lng_decimal,

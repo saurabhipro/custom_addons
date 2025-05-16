@@ -31,10 +31,10 @@
     background-color: #e53935 !important;
     color: #fff !important;
 }
-.o_field_badge[data-value="plate_installed"] {
-    background-color: #43a047 !important;
-    color: #fff !important;
-}
+// .o_field_badge[data-value="plate_installed"] {
+//     background-color: #43a047 !important;
+//     color: #fff !important;
+// }
 .o_field_badge[data-value="surveyed"] {
     background-color: #fbc02d !important;
     color: #fff !important;
@@ -47,3 +47,17 @@
     background-color: #8e24aa !important;
     color: #fff !important;
 }
+
+
+
+.o_form_view .oe_avatar .img{
+    // img1{
+        width: 50%;
+        height: 0;
+    // }
+}
+
+
+// .o_form_view .oe_avatar .img{
+
+// }

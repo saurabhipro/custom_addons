@@ -14,11 +14,8 @@
     'depends': ['base', 'mail', 'web'],
     'data': [
         # Security
-        'security/res_groups.xml',
         'security/ir.model.access.csv',
         
-        # Data
-        'data/ir_module_category_data.xml',
         
         # Views
         'views/zone_views.xml',
@@ -27,6 +24,10 @@
         'views/property_details_views.xml',
         'views/property_details_template.xml',
         'views/property_map_view.xml',
+        'views/res_users_views.xml',
+        'views/mobile_otp_views.xml',
+        'views/jwt_token_views.xml',
+        'views/property_survey.xml',
         'views/dashboard.xml',
         'views/menuitems.xml',  # Load menus last
         # 'views/assets.xml',

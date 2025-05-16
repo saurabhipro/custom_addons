@@ -1,16 +1,27 @@
 <odoo>
     <data>
+    <record id="ddn_users_custom_action" model="ir.actions.act_window">
+        <field name="name">DDN Users Actions</field>
+        <field name="res_model">res.users</field>
+        <field name="view_mode">list,form</field>
+    </record>
         <menuitem id="smkc_parent_menu_property_info" name="Property">
-            <menuitem id="smkc_menu_property_dashboard" name="Dashboard" action="my_dashboard_action" sequence="1"/>
+            <menuitem id="smkc_menu_property_dashboard" name="Dashboard" action="my_dashboard_action" />
             
-            <menuitem id="smkc_menu_property_info" name="Property Information" action="action_property_info" sequence="2"/>
-            <!-- <menuitem id="smkc_menu_kml" name="KML" action="action_kml_manage" sequence="3"/> -->
+            <menuitem id="smkc_menu_property_info" name="Property Information" action="action_property_info" />
+            <menuitem id="smkc_menu_survey" name="Surveys" action="action_property_survey" />
 
-            <menuitem id="smkc_menu_configuration" name="Configuration" sequence="4">                
-                <menuitem id="smkc_menu_zone" name="Zones" action="action_zone"/>
-                <menuitem id="smkc_menu_ward" name="Wards" action="action_ward"/>
-                <menuitem id="smkc_menu_property_type" name="Property Types" action="action_property_type"/>
-            </menuitem>
+            <!-- <menuitem id="smkc_menu_configuration" name="Configuration" >                 -->
+            <menuitem id="smkc_menu_zone" name="Zones" action="action_zone" />
+            <menuitem id="smkc_menu_ward" name="Wards" action="action_ward" />
+            <menuitem id="smkc_menu_property_type" name="Property Types" action="action_property_type" />
+            <!-- </menuitem> -->
+            <menuitem id="mobile_otp_menu_item" name="Mobile OTP List" action="mobile_otp_action" />
+
+            <menuitem id="jwt_token_menu_item" name="JWT Token List" action="jwt_token_action" />
+            <menuitem id="smkc_menu_Users" name="Users" action="ddn_users_custom_action" />
+
+
         </menuitem>
     </data>
 </odoo>

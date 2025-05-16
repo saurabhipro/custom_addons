@@ -7,7 +7,11 @@ access_smkc_ward,smkc.ward,model_smkc_ward,base.group_user,1,1,1,1
 access_smkc_property_type,smkc.property.type,model_smkc_property_type,base.group_user,1,1,1,1
 access_smkc_property_survey,smkc.property.survey,model_smkc_property_survey,base.group_user,1,1,1,1
 
-access_smkc_property_dashboard,smkc.property.dashboard,model_smkc_property_dashboard,base.group_user,1,1,1,1
+
+access_mobile_otp,mobile.otp,model_mobile_otp,base.group_user,1,1,1,1
+access_jwt_token,jwt.token,model_jwt_token,base.group_user,1,1,1,1
+
+
 
 
 

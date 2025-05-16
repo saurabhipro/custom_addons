@@ -25,7 +25,7 @@ export class PropertyMapView extends Component {
                 { value: '', label: 'All Statuses' },
                 { value: 'uploaded', label: 'Uploaded' },
                 { value: 'pdf_downloaded', label: 'PDF Downloaded' },
-                { value: 'plate_installed', label: 'Plate Installed' },
+                // { value: 'plate_installed', label: 'Plate Installed' },
                 { value: 'surveyed', label: 'Surveyed' },
                 { value: 'unlocked', label: 'Unlocked' },
                 { value: 'discovered', label: 'Discovered' },
@@ -177,10 +177,10 @@ export class PropertyMapView extends Component {
             this.clearMarkers();
             const domain = [];
             if (this.state.selectedZone) {
-                domain.push(['new_zone_no', '=', parseInt(this.state.selectedZone)]);
+                domain.push(['zone_no', '=', parseInt(this.state.selectedZone)]);
             }
             if (this.state.selectedWard) {
-                domain.push(['new_ward_no', '=', parseInt(this.state.selectedWard)]);
+                domain.push(['ward_no', '=', parseInt(this.state.selectedWard)]);
             }
             if (this.state.selectedStatus) {
                 domain.push(['property_status', '=', this.state.selectedStatus]);
@@ -208,7 +208,7 @@ export class PropertyMapView extends Component {
             });
             const properties = await this.orm.call('smkc.property.info', 'search_read', [domain], {
                 fields: [
-                    'id', 'upic_no', 'new_zone_no', 'new_ward_no', 'property_status', 'latitude', 'longitude', 'owner_id', 'property_description'
+                    'id', 'upic_no', 'zone_no', 'ward_no', 'property_status', 'latitude', 'longitude', 'owner_id', 'property_description'
                 ]
             });
             console.log('Properties returned:', properties.length, properties);
@@ -246,7 +246,7 @@ export class PropertyMapView extends Component {
                         // Only create InfoWindow on click
                         marker.addListener('click', () => {
                             const shareText = encodeURIComponent(
-                                `UPIC: ${prop.upic_no}\nZone: ${prop.new_zone_no ? prop.new_zone_no[1] : ''}\nWard: ${prop.new_ward_no ? prop.new_ward_no[1] : ''}\nStatus: ${prop.property_status || ''}\nOwner: ${prop.owner_id || ''}\nDescription: ${prop.property_description || ''}`
+                                `UPIC: ${prop.upic_no}\nZone: ${prop.zone_no ? prop.zone_no[1] : ''}\nWard: ${prop.ward_no ? prop.ward_no[1] : ''}\nStatus: ${prop.property_status || ''}\nOwner: ${prop.owner_id || ''}\nDescription: ${prop.property_description || ''}`
                             );
                             const whatsappLink = `https://wa.me/?text=${shareText}`;
                             const emailLink = `mailto:?subject=Property%20Details%20-%20${prop.upic_no}&body=${shareText}`;
@@ -268,8 +268,8 @@ export class PropertyMapView extends Component {
                                             </span>
                                         </div>
                                         <div style="padding:16px 18px 10px 18px;">
-                                            <div style="margin-bottom:6px;"><b>Zone:</b> ${prop.new_zone_no ? prop.new_zone_no[1] : ''}</div>
-                                            <div style="margin-bottom:6px;"><b>Ward:</b> ${prop.new_ward_no ? prop.new_ward_no[1] : ''}</div>
+                                            <div style="margin-bottom:6px;"><b>Zone:</b> ${prop.zone_no ? prop.zone_no[1] : ''}</div>
+                                            <div style="margin-bottom:6px;"><b>Ward:</b> ${prop.ward_no ? prop.ward_no[1] : ''}</div>
                                             <div style="margin-bottom:6px;"><b>Status:</b> ${prop.property_status || ''}</div>
                                             <div style="margin-bottom:6px;"><b>Coordinates:</b> ${prop.latitude}, ${prop.longitude}</div>
                                             <div style="margin-bottom:6px;"><b>Owner:</b> ${prop.owner_id || ''}</div>

@@ -125,9 +125,9 @@
                         <div class="dashboard-card plate">
                             <span class="icon"><i class="fa fa-id-badge"></i></span>
                             <span class="bg-icon"><i class="fa fa-id-badge"></i></span>
-                            <div class="count"><t t-esc="this.state.property_info['total_plate_installed']"/></div>
-                            <div class="label">Plate Installed</div>
-                            <a t-att-href="'/web#action=smkc.action_property_info&amp;model=smkc.property.info&amp;view_type=list&amp;menu_id=123&amp;domain=%5B%5B%22property_status%22%2C%22%3D%22%2C%22plate_installed%22%5D%5D'" class="status-link" target="_blank">View Plate Installed</a>
+                            <!-- <div class="count"><t t-esc="this.state.property_info['total_plate_installed']"/></div> -->
+                            <!-- <div class="label">Plate Installed</div>
+                            <a t-att-href="'/web#action=smkc.action_property_info&amp;model=smkc.property.info&amp;view_type=list&amp;menu_id=123&amp;domain=%5B%5B%22property_status%22%2C%22%3D%22%2C%22plate_installed%22%5D%5D'" class="status-link" target="_blank">View Plate Installed</a> -->
                         </div>
                         <div class="dashboard-card surveyed">
                             <span class="icon"><i class="fa fa-check-square-o"></i></span>
@@ -207,16 +207,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr t-if="!(state.property_info.ward_data &amp;&amp; state.property_info.ward_data.length)">
-                            <td colspan="9" style="text-align:center;color:#888;">No ward data available.</td>
+                        <tr>
+                            <td>skajdhfkasdf</td>
+                            <td><t t-esc="state.property_info"></t></td>
                         </tr>
+                        <!-- <tr t-if="!(state.property_info.ward_data &amp;&amp; state.property_info.ward_data.length)">
+                            <td colspan="9" style="text-align:center;color:#888;">No ward data available.</td>
+                        </tr> -->
                         <tr t-foreach="state.property_info.ward_data || []" t-as="ward" t-key="ward.ward">
                             <td><t t-esc="ward.ward"/></td>
                             <td><t t-esc="ward.total_count"/></td>
                             <td><t t-esc="ward.new_count"/></td>
                             <td><t t-esc="ward.uploaded_count"/></td>
                             <td><t t-esc="ward.pdf_downloaded_count"/></td>
-                            <td><t t-esc="ward.plate_installed_count"/></td>
+                            <!-- <td><t t-esc="ward.plate_installed_count"/></td> -->
                             <td><t t-esc="ward.surveyed_count"/></td>
                             <td><t t-esc="ward.unlocked_count"/></td>
                             <td><t t-esc="ward.discovered_count"/></td>
