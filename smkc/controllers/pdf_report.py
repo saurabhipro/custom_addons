@@ -52,12 +52,13 @@ class PdfGeneratorController(http.Controller):
                 
                 zone = property_rec.zone_no.name or "Unknown Zone"
                 block = property_rec.ward_no.name or "Unknown Block"
-                uuid = property_rec.unit_no or "No UPIC"
+                unit_no = property_rec.unit_no or "No UNIT NO."
+                uuid = property_rec.uuid or "No UUID"
                 
                 c.setFont("Helvetica-Bold", 16)
                 c.drawString(305, 228, zone)
                 c.drawString(445, 228, block)
-                c.drawString(550, 228, uuid)
+                c.drawString(550, 228, unit_no)
                 
                 qr = qrcode.QRCode(
                     version=1,
