@@ -112,7 +112,7 @@ class PdfGeneratorController(http.Controller):
         print("UPIC No:", uuid)
         
         property = request.env['smkc.property.info'].sudo().search([('uuid', '=', uuid)], limit=1)
-        
+      
         if property:
             return request.render('smkc.property_details_template', {'property': property})
         
