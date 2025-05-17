@@ -6,7 +6,7 @@ class ResUsers(models.Model):
     _inherit = "res.users"
 
     zone_no = fields.Many2one('smkc.zone', string='Zone No')
-    ward_no = fields.Many2one('smkc.ward',string='Ward No')
+    ward_no = fields.Many2many('smkc.ward',string='Ward No')
     is_surveyor = fields.Boolean(string='Is Surveyor')
     mobile = fields.Char(string="Mobile")
 

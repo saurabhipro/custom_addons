@@ -12,31 +12,59 @@ export class OwlCrmDashboard extends Component {
     setup() {
         this.orm = useService("orm");
         this.state = useState({
-            property_info: {},
-            error: null
+            property_info: {
+                ward_data: [], // Initialize ward_data as an empty array
+                // ... other property info fields
+            },
+            error: null,
+            isLoading: true
         });
 
         onWillStart(async () => {
-            try {
-                // Property status wise data
-                const propertyDetails = await this.orm.call(
-                    'smkc.property.info',
-                    'get_dashboard_data',
-                    [],
-                    {}
-                );
-                
-                console.log("propertyDetails - ", propertyDetails);
-                if (propertyDetails && propertyDetails.length > 0) {
-                    this.state.property_info = propertyDetails[0];
-                } else {
-                    console.log("No property details found.");
-                }
-            } catch (error) {
-                console.error("Error in onWillStart:", error);
-                this.state.error = error.message;
-            }
+            await this.loadDashboardData();
         });
+    }
+
+    async loadDashboardData() {
+        try {
+            // Property status wise data
+            const propertyDetails = await this.orm.call(
+                'smkc.property.info',
+                'get_dashboard_data',
+                [],
+                {}
+            );
+            
+            console.log("propertyDetails - ", propertyDetails);
+            
+            if (propertyDetails && propertyDetails.length > 0) {
+                const data = propertyDetails[0];
+                
+                // Ensure ward_data is always an array
+                this.state.property_info = {
+                    ...data,
+                    ward_data: Array.isArray(data.ward_data) ? data.ward_data : []
+                };
+                
+                console.log("Processed ward data:", this.state.property_info.ward_data);
+            } else {
+                console.warn("No property details found.");
+                this.state.property_info.ward_data = [];
+            }
+        } catch (error) {
+            console.error("Error loading dashboard data:", error);
+            this.state.error = error.message || "Failed to load dashboard data";
+        } finally {
+            this.state.isLoading = false;
+        }
+    }
+
+    /**
+     * Helper method to safely get ward data
+     * @returns {Array} ward data array or empty array if not available
+     */
+    getWardData() {
+        return this.state.property_info?.ward_data || [];
     }
 }
 

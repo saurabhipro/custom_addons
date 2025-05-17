@@ -11,7 +11,7 @@ from odoo import http
 from odoo.http import request
 
 class PdfGeneratorController(http.Controller):
-    @http.route('/download/ward_properties_pdf', type='http', auth='user', methods=['GET', 'POST'], csrf=True)
+    @http.route('/download/ward_properties_pdf', type='http', auth='user', methods=['GET'], csrf=True)
     def download_ward_properties_pdf(self, **kw):
         ward_id = kw.get('ward_id')
         if not ward_id:
@@ -52,7 +52,7 @@ class PdfGeneratorController(http.Controller):
                 
                 zone = property_rec.zone_no.name or "Unknown Zone"
                 block = property_rec.ward_no.name or "Unknown Block"
-                uuid = property_rec.uuid or "No UPIC"
+                uuid = property_rec.unit_no or "No UPIC"
                 
                 c.setFont("Helvetica-Bold", 16)
                 c.drawString(305, 228, zone)
@@ -112,7 +112,9 @@ class PdfGeneratorController(http.Controller):
         print("UPIC No:", uuid)
         
         property = request.env['smkc.property.info'].sudo().search([('uuid', '=', uuid)], limit=1)
-      
+        for a in property:
+            print("a - ",)
+            print("Property:", a.survey_line_ids[0])
         if property:
             return request.render('smkc.property_details_template', {'property': property})
         

@@ -8,7 +8,7 @@
         <menuitem id="smkc_parent_menu_property_info" name="Property">
             <menuitem id="smkc_menu_property_dashboard" name="Dashboard" action="my_dashboard_action" />
             
-            <menuitem id="smkc_menu_property_info" name="Property Information" action="action_property_info" />
+            <menuitem id="smkc_menu_property_info" name="Property" action="action_property_info" />
             <menuitem id="smkc_menu_survey" name="Surveys" action="action_property_survey" />
 
             <!-- <menuitem id="smkc_menu_configuration" name="Configuration" >                 -->
@@ -16,9 +16,9 @@
             <menuitem id="smkc_menu_ward" name="Wards" action="action_ward" />
             <menuitem id="smkc_menu_property_type" name="Property Types" action="action_property_type" />
             <!-- </menuitem> -->
-            <menuitem id="mobile_otp_menu_item" name="Mobile OTP List" action="mobile_otp_action" />
+            <menuitem id="mobile_otp_menu_item" name="OTP" action="mobile_otp_action" />
 
-            <menuitem id="jwt_token_menu_item" name="JWT Token List" action="jwt_token_action" />
+            <menuitem id="jwt_token_menu_item" name="Access oken" action="jwt_token_action" />
             <menuitem id="smkc_menu_Users" name="Users" action="ddn_users_custom_action" />
 
 
